@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        /* Page layout */
+        body {
+            background-color: #CCE5FF; /* Pastel blue background */
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 16px;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #555;
+            margin: 16px 0;
+        }
+        #main-container {
+            display: flex;
+            flex-direction: row;
+            height: calc(100vh - 64px - 32px); /* Adjusted height to account for margins */
+        }
+        /* Iframe container */
+        #iframe-container {
+            width: 40%; /* Made the iframe wider */
+            height: 100%;
+            overflow: hidden;
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Subtle shadow */
+        }
+        #iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        /* Container cards */
+        #container-cards {
+            width: 30%;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+        }
+        /* Conversation container */
+        #conversation-container {
+            width: 30%;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            height: 50vh; /* 50% of viewport height */
+        }
+        /* Conversation card */
+        .conversation-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            width: calc(100% - 64px);
+            background-color: #f0f0f0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .conversation-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+        .conversation-messages {
+            flex: 1;
+            overflow-y: auto;
+        }
+        /* Card styles */
+        .container-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            width: calc(100% - 64px);
+            background-color: #f0f0f0;
+            transition: background-color 0.3s;
+            box-sizing: border-box;
+        }
+        .container-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+        .item-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .item-list li {
+            background: #f5f5f5;
+            margin: 4px 0;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .item-list li.empty-item {
+            font-style: italic;
+            color: #888;
+        }
+        /* Message styles */
+        .message {
+            max-width: 80%;
+            margin: 4px 0;
+            padding: 8px 12px;
+            border-radius: 18px;
+            clear: both;
+            display: inline-block;
+            word-wrap: break-word;
+        }
+        .message.avatar {
+            background-color: #e0e0e0;
+            float: left;
+            text-align: left;
+            border-top-left-radius: 0;
+        }
+        .message.user {
+            background-color: #007aff;
+            color: #fff;
+            float: right;
+            text-align: right;
+            border-top-right-radius: 0;
+        }
+        /* Clear floats */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 800px) {
+            #main-container {
+                flex-direction: column;
+            }
+            #iframe-container, #container-cards, #conversation-container {
+                width: 100%;
+                height: auto;
+            }
+            .container-card, .conversation-card {
+                width: calc(100% - 64px);
+            }
+            #conversation-container {
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <div id="main-container">
+        <!-- Iframe on the left -->
+        <div id="iframe-container">
+            <iframe id="chat-iframe" allow="camera;microphone;fullscreen;clipboard-write" referrerpolicy="origin"></iframe>
+        </div>
+        <!-- Cards in the middle -->
+        <div id="container-cards"></div>
+        <!-- Conversation on the right -->
+        <div id="conversation-container" class="clearfix">
+            <div class="conversation-card" id="conversation-card">
+                <div class="conversation-title">Chat</div>
+                <div id="conversation-messages" class="conversation-messages"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate a 5-digit session ID, left-padded with zeros
+        function generateSessionId() {
+            const randomNum = Math.floor(Math.random() * 100000);
+            return String(randomNum).padStart(5, '0');
+        }
+
+        const sessionId = generateSessionId();
+
+        // Set the iframe src to include the sessionId parameter
+        const iframe = document.getElementById('chat-iframe');
+        const orgId = 'cd09871f-0a8d-49db-8829-4efc8fed21d0';
+        const slotId = '77df1bd9-c81f-4906-b14f-e84b38cdfee8';
+        iframe.src = `https://chat.dev.portalis.ai/guest?orgId=${orgId}&slotId=${slotId}&sessionId=${sessionId}`;
+
+        // Now, connect to the SSE endpoint with the same sessionId
+        const containerCardsDiv = document.getElementById('container-cards');
+        const conversationMessagesDiv = document.getElementById('conversation-messages');
+        const currentContainers = {};
+        // Updated colors to exclude background color
+        const colors = ['#FFCCCC', '#CCFFCC', '#FFCCFF', '#FFFFCC', '#FFDAB9', '#E6E6FA']; // Soft pastel colors
+        let colorIndex = 0;
+
+        // Connect to the /sse/:sessionId endpoint
+        const eventSource = new EventSource(`/sse/${sessionId}`);
+
+        eventSource.onmessage = function(event) {
+            try {
+                const data = JSON.parse(event.data);
+                // Check for metadata container
+                if (data.containers && data.containers.metadata) {
+                    processMetadata(data.containers.metadata);
+                    // Remove metadata from containers to avoid displaying it as a card
+                    delete data.containers.metadata;
+                }
+                // Check for conversation container
+                if (data.containers && data.containers.conversation) {
+                    processConversation(data.containers.conversation);
+                    // Remove conversation from containers to avoid displaying it as a card
+                    delete data.containers.conversation;
+                }
+                updateContainers(data.containers);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        };
+
+        eventSource.onerror = function(error) {
+            console.error('EventSource error:', error);
+        };
+
+        function processMetadata(metadataContainer) {
+            metadataContainer.contents.forEach(item => {
+                const [key, value] = item.item.split(':');
+                if (key && value) {
+                    const trimmedKey = key.trim().toLowerCase();
+                    const trimmedValue = value.trim();
+                    if (trimmedKey === 'page_title') {
+                        document.title = trimmedValue;
+                        const h1 = document.querySelector('h1');
+                        h1.textContent = trimmedValue;
+                    }
+                }
+            });
+        }
+
+        function processConversation(conversationContainerData) {
+            // Clear the existing conversation
+            conversationMessagesDiv.innerHTML = '';
+            const previousItems = [];
+            conversationContainerData.contents.forEach(item => {
+                const conversationString = item.item;
+
+                if (previousItems.includes(conversationString)) {
+                    // Skip adding duplicate conversation
+                    return;
+                }
+                previousItems.push(conversationString);
+                // Only keep the last 10 messages
+                if (previousItems.length > 10) {
+                    previousItems.shift();
+                }
+
+                // Split the conversation string by '#' and filter out empty strings
+                const messageStrings = conversationString.split('#').filter(s => s.trim() !== '');
+                
+                messageStrings.forEach(messageString => {
+                    // messageString is like 'Avatar:Hi.' or 'User:Hey, how are you doing?'
+                    const colonIndex = messageString.indexOf(':');
+                    if (colonIndex === -1) {
+                        // Invalid format, skip
+                        return;
+                    }
+
+                    const sender = messageString.substring(0, colonIndex).trim();
+                    const text = messageString.substring(colonIndex + 1).trim();
+
+                    if (sender && text) {
+                        addMessageToConversation(sender, text);
+                    }
+                });
+            });
+        }
+
+        function addMessageToConversation(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+
+            if (sender.toLowerCase() === 'avatar') {
+                messageDiv.classList.add('avatar');
+            } else if (sender.toLowerCase() === 'user') {
+                messageDiv.classList.add('user');
+            } else {
+                // Default to 'avatar' style if sender is unrecognized
+                messageDiv.classList.add('avatar');
+            }
+
+            messageDiv.textContent = text;
+            conversationMessagesDiv.appendChild(messageDiv);
+
+            // Scroll to the bottom
+            conversationMessagesDiv.scrollTop = conversationMessagesDiv.scrollHeight;
+        }
+
+        function updateContainers(containers) {
+            const newContainerIds = Object.keys(containers);
+            const existingContainerIds = Object.keys(currentContainers);
+
+            // Remove containers that no longer exist
+            existingContainerIds.forEach(containerId => {
+                if (!newContainerIds.includes(containerId)) {
+                    const card = currentContainers[containerId].element;
+                    containerCardsDiv.removeChild(card);
+                    delete currentContainers[containerId];
+                }
+            });
+
+            // Update existing containers and add new ones
+            newContainerIds.forEach(containerId => {
+                const containerData = containers[containerId];
+
+                if (currentContainers[containerId]) {
+                    // Update existing card
+                    updateContainerCard(currentContainers[containerId].element, containerData);
+                } else {
+                    // Create new card with a color
+                    let color = colors[colorIndex % colors.length];
+                    colorIndex++;
+                    // Ensure the color is not the same as the background
+                    while (color === '#CCE5FF') {
+                        color = colors[colorIndex % colors.length];
+                        colorIndex++;
+                    }
+                    const card = createContainerCard(containerData, color);
+                    containerCardsDiv.appendChild(card);
+                    currentContainers[containerId] = { element: card, color: color };
+                }
+            });
+        }
+
+        function createContainerCard(containerData, color) {
+            const card = document.createElement('div');
+            card.className = 'container-card';
+            card.id = 'container-' + containerData.id;
+            card.style.backgroundColor = color;
+
+            const title = document.createElement('div');
+            title.className = 'container-title';
+            title.textContent = containerData.id;
+            card.appendChild(title);
+
+            const itemList = document.createElement('ul');
+            itemList.className = 'item-list';
+            containerData.contents.forEach(item => {
+                const listItem = document.createElement('li');
+
+                // Check if item is empty or whitespace
+                if (!item.item || item.item.trim() === '') {
+                    listItem.textContent = 'no record';
+                    listItem.classList.add('empty-item');
+                } else {
+                    listItem.textContent = item.item;
+                }
+
+                itemList.appendChild(listItem);
+            });
+            card.appendChild(itemList);
+
+            return card;
+        }
+
+        function updateContainerCard(card, containerData) {
+            // Update the title (if it might change)
+            const title = card.querySelector('.container-title');
+            title.textContent = containerData.id;
+
+            // Update the item list
+            const itemList = card.querySelector('.item-list');
+            // Clear existing items
+            itemList.innerHTML = '';
+            // Add updated items
+            containerData.contents.forEach(item => {
+                const listItem = document.createElement('li');
+
+                // Check if item is empty or whitespace
+                if (!item.item || item.item.trim() === '') {
+                    listItem.textContent = 'no record';
+                    listItem.classList.add('empty-item');
+                } else {
+                    listItem.textContent = item.item;
+                }
+
+                itemList.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>
