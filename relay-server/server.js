@@ -50,11 +50,6 @@ fastify.get('/', (request, reply) => {
   reply.type('text/html').send(stream);
 });
 
-fastify.get('/prompt', (request, reply) => {
-  const stream = createReadStream(join(process.cwd(), 'prompt.html'));
-  reply.type('text/html').send(stream);
-});
-
 fastify.listen({ port: 5009 }, (err, address) => {
   if (err) {
     fastify.log.error(err);
