@@ -39,8 +39,8 @@ When the users asks you to post the inventory use the command
 
 
 #####  Trigger file send on every turn  #####
-${WEB_SEND|YOUR_SERVER/{{sessionId}}|inventory|TestInventory}$
 
+${WEB_POST|YOUR_SERVER/{{sessionId}}|file=${as_json|inventory|TestInventory}$}$
 
 
 #####  ANIMATION TAGS  #####
