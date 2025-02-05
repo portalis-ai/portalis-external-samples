@@ -1,0 +1,105 @@
+.support-button {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #2563eb;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+    z-index: 50;
+}
+
+.support-button:hover {
+    background-color: #1d4ed8;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.panel-container {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 51;
+    visibility: hidden;
+}
+
+.panel {
+    background: white;
+    width: 100%;
+    max-width: 672px;
+    height: 60vh;
+    border-radius: 8px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: scale(0.95);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.panel.active {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.panel-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.close-button {
+    padding: 8px;
+    border-radius: 9999px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.close-button:hover {
+    background-color: #f3f4f6;
+}
+
+.iframe-container {
+    width: 100%;
+    height: calc(100% - 64px);
+}
+
+.support-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Show elements when active */
+.show {
+    visibility: visible;
+}
+
+.overlay.show {
+    opacity: 1;
+}

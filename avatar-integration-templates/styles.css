@@ -1,0 +1,35 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+}
+
+.welcome-screen {
+    text-align: center;
+    padding: 50px;
+}
+
+.template-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.template-buttons button {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 2px solid #4a90e2;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.template-buttons button:hover {
+    background-color: #4a90e2;
+    transform: scale(1.05);
+}
+
+/* ...existing code... */
