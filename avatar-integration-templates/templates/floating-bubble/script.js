@@ -6,10 +6,10 @@ const videoPreview = document.querySelector(".video-preview");
 const chatIframe = document.querySelector("#chat-iframe");
 
 const avatarPreviewURL =
-  "https://www.dropbox.com/scl/fi/7z3y6fxma23uoifzy13ak/Jess-Preview.mp4?rlkey=0h20xim0qaifrqlirpx1kwxcy&st=yci8yvda&raw=1";
+  "https://www.dropbox.com/scl/fi/7z3y6fxma23uoifzy13ak/Jess-Preview.mp4?rlkey=0h20xim0qaifrqlirpx1kwxcy&st=yci8yvda&raw=1"; //YOUR AVATAR PREVIEW LOCATION(Video) HERE
 
 const activeCallURL =
-  "https://www.dropbox.com/scl/fi/0kxx4enwsv0hnu0omp2ry/x_image.png?rlkey=77mn0c4bi0ne8hy2le2z5wvfe&st=lvv9mvx7&raw=1";
+  "https://www.dropbox.com/scl/fi/0kxx4enwsv0hnu0omp2ry/x_image.png?rlkey=77mn0c4bi0ne8hy2le2z5wvfe&st=lvv9mvx7&raw=1"; //YOUR ACTIVE CALL IMAGE LOCATION HERE
 
 const avatarPreviewHTML = `
       <video class="video-preview" autoplay loop muted playsinline>
