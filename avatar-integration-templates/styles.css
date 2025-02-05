@@ -9,6 +9,12 @@ body {
     padding: 50px;
 }
 
+.template-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
 .template-buttons button {
     background-color: #333;
     color: #e0e0e0;
