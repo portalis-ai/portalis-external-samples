@@ -1,9 +1,0 @@
-{
-    "liveServer.settings.https": {
-      "enable": true,
-      "cert": "./certificate/myCA.pem",
-      "key": "./certificate/myCA.key",
-      "passphrase": "12345"
-    },
-    "liveServer.settings.port": 3000
-  }
