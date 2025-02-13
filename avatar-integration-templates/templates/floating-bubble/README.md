@@ -45,6 +45,17 @@ In the `index.html` file, update the `src` attribute of the iframe with your Por
 ></iframe>
 ```
 
+### Update Header/Bubble Color and Font Style
+
+In the `styles.css` file, update the `--bubbleringcolor` and `--headerFont` variables to customize the color of the header/bubble and the font style.
+
+```css
+:root {
+  --bubbleringcolor: #c6a87c; /* UPDATE RING COLOR HERE */
+  --headerFont: "Montserrat", Arial, sans-serif; /* UPDATE FONT HERE */
+}
+```
+
 ## Example Site
 
 You can view an example site showcasing the templates [here](https://emmanuelahonle1.github.io/portalisAI-avatar-templates/).
