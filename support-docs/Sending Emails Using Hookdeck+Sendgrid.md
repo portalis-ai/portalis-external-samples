@@ -139,199 +139,7 @@ addHandler("transform", (request, context) => {
     content: [
       {
         type: "text/html",
-        value: `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Intake Summary</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333333;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .company-header {
-            text-align: center;
-            padding: 10px;
-            background-color: #f5f5f5;
-            border-radius: 5px 5px 0 0;
-            border-bottom: 2px solid #dddddd;
-        }
-        
-        .company-name {
-            font-size: 20px;
-            font-weight: bold;
-            color: #2C3E50;
-            margin: 0;
-        }
-        
-        .header {
-            background-color: #2C3E50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 0;
-        }
-        
-        .content {
-            background-color: #ffffff;
-            padding: 20px;
-            border-left: 1px solid #dddddd;
-            border-right: 1px solid #dddddd;
-        }
-        
-        .footer {
-            background-color: #f5f5f5;
-            padding: 15px;
-            text-align: center;
-            font-size: 12px;
-            color: #666666;
-            border-radius: 0 0 5px 5px;
-            border: 1px solid #dddddd;
-        }
-        
-        .info-section {
-            margin-bottom: 20px;
-        }
-        
-        h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-        
-        h2 {
-            color: #2C3E50;
-            font-size: 18px;
-            margin-top: 0;
-            border-bottom: 1px solid #eeeeee;
-            padding-bottom: 8px;
-        }
-        
-        .field {
-            margin-bottom: 10px;
-        }
-        
-        .field-label {
-            font-weight: bold;
-            display: inline-block;
-            min-width: 150px;
-        }
-        
-        .appointment-summary {
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        
-        .new-patient {
-            background-color: #fffde7;
-            padding: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #FFC107;
-            margin-bottom: 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="company-header">
-            <p class="company-name">${process.env.COMPANY_NAME}</p>
-        </div>
-        
-        <div class="header">
-            <h1>Patient Intake Call Summary</h1>
-        </div>
-        <div class="content">
-            ${
-              request.body.content.IsNew
-                ? `
-            <div class="new-patient" id="newPatientBlock">
-                <strong>⭐ New Patient ⭐</strong>
-            </div>
-            `
-                : ""
-            }
-            
-            <div class="info-section">
-                <h2>Patient Information</h2>
-                <div class="field">
-                    <span class="field-label">Name:</span>
-                    <span id="patientName">${
-                      request.body.content.Name || "N/A"
-                    }</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Date of Birth:</span>
-                    <span id="birthDate">${
-                      request.body.content.BirthDate || "N/A"
-                    }</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Phone:</span>
-                    <span id="phone">${
-                      request.body.content.Phone || "N/A"
-                    }</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Preferred Location:</span>
-                    <span id="location">${
-                      request.body.content.PreferredProcedureLocation || "N/A"
-                    }</span>
-                </div>
-            </div>
-            
-            <div class="info-section">
-                <h2>Visit Details</h2>
-                <div class="field">
-                    <span class="field-label">Reason for Visit:</span>
-                    <span id="visitReason">${
-                      request.body.content.VisitReason || "N/A"
-                    }</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Summary:</span>
-                    <span id="summary">${
-                      request.body.content.Summary || "N/A"
-                    }</span>
-                </div>
-            </div>
-            
-            <div class="appointment-summary">
-                <h2>Intake Call Details</h2>
-                <div class="field">
-                    <span class="field-label">Call Date & Time:</span>
-                    <span id="startTime">${
-                      request.body.content.StartTime || "N/A"
-                    }</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Call Duration:</span>
-                    <span id="duration">${
-                      request.body.content.Duration || "N/A"
-                    }</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>This is an automated summary of your recent intake call. Please contact our office if you have any questions.</p>
-            <p>© ${process.env.COMPANY_NAME}. All rights reserved.</p>
-        </div>
-    </div>
-</body>
-</html>`.replace(/[\r\n]+/g, " "),
+        value: body.content,
       },
     ],
   };
@@ -345,6 +153,8 @@ addHandler("transform", (request, context) => {
 });
 ```
 
+Within your prompt, you'll also have an option to create your own HTML template which can be passed as your `body.content` value
+
 6. **Confirm** the changes and **Save** the changes on the **Transformation**
 
 ## Setting up Sendgrid
@@ -353,12 +163,14 @@ Sendgrid will be the application which actually sends our email. Now that we've 
 
 > ❗ **Warning:** The email that you set to be your sender email in Sendgrid when you first created your account is the only account you can send emails from!
 
-1. Upon the creation of your Sendgrid account, select **Email API** on the Sidebar. This should open a dropdown. From this dropdown, select **Integration Guide**.
+1. Upon the creation of your Sendgrid account, you will be prompted to authenticate the domain that Sendgrid will be using to send emails from. You can send the domains/tokens which need to be setup to who is responsible through email.
 
-2. Select **Web API** option and follow the instructions.
+2. After authenticating the domains, select **Email API** on the Sidebar. This should open a dropdown. From this dropdown, select **Integration Guide**.
 
-3. Once you have generated and copied the API KEY, navigate back to your Destination connection in Hookdeck and select **Open Destination**.
+3. Select **Web API** option and follow the instructions.
 
-4. Scroll down until you've reached the **Authentication** option. Ensure that **Bearer Token** is selected. Using the API KEY you obtained from the Step 2, paste it into the value section.
+4. Once you have generated and copied the API KEY, navigate back to your Destination connection in Hookdeck and select **Open Destination**.
 
-5. Save your changes.
+5. Scroll down until you've reached the **Authentication** option. Ensure that **Bearer Token** is selected. Using the API KEY you obtained from the Step 2, paste it into the value section.
+
+6. Save your changes.
