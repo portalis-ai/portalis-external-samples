@@ -1,35 +1,87 @@
 body {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: #1E1E1E;
     font-family: Arial, sans-serif;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#aet-title {
+    color: #9183CA;
+    margin-top: 5px;
+    margin-bottom: 75px;
+}
+
+main {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .welcome-screen {
     text-align: center;
     padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.template-buttons {
+.welcome-screen {
+    padding-top: 10px; /* Reduced top padding */
+  }
+  .logo {
+    width: 10%; /* Original width */
+    height: 10%; /* Original height */
+  }
+
+.template-cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
 
-.template-buttons button {
-    background-color: #333;
+.avatar-gif {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 200px;
+    border-radius: 5px;
+}
+
+.aet-card {
+    background-color: #2E2E2E;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.aet-card button {
+    background-color: #9183CA;
     color: #e0e0e0;
-    border: 2px solid #4a90e2;
+    border: 2px solid #9183CA;
     padding: 10px 20px;
     margin: 10px;
     font-size: 16px;
-    border-radius: 5px;
+    font-weight: bold;
+    border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
+    position: relative; /* Added for tooltip positioning context */
 }
 
-.template-buttons button:hover {
-    background-color: #4a90e2;
+.aet-card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 30px;
+}
+
+.aet-card button:hover {
+    background-color: #D5D0E5;
     transform: scale(1.05);
 }
-
-/* ...existing code... */
