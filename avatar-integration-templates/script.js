@@ -22,7 +22,7 @@ function createAETCard(gifSrc, description, buttonText, buttonLink) {
   const button = document.createElement("button");
   button.textContent = buttonText;
   button.onclick = () => {
-    window.location.href = buttonLink;
+    window.location.href = `./templates/${buttonLink}`;
   };
 
   // Append elements to the container
@@ -43,25 +43,25 @@ templatesArr = [
     gifPath: "",
     text: "Avatar appears as a floating button in the corner of the screen. Upon clicking, it expands to show the avatar modal above the button. For mobile, the avatar modal appears as a full-screen overlay.",
     title: "Slide-In Assistant",
-    url: "templates/slide-in-assistant",
+    url: "slide-in-assistant",
   },
   {
     gifPath: "",
     text: "Avatar window will strictly fit the screen dimensions for a mobile device. The avatar will be centered in the screen and will not be a floating button.",
     title: "Mobile Portrait Call",
-    url: "templates/mobile-portrait-call",
+    url: "mobile-portrait-call",
   },
   {
     gifPath: "",
     text: "Modal window will appear centered on the screen with a dark overlay hiding the background. ",
     title: "Centered Support Modal",
-    url: "templates/centered-support-modal",
+    url: "centered-support-modal",
   },
   {
     gifPath: "",
     text: "Default conference view of avatar with responsive dimensions dependent on device screen size.",
     title: "Default Conference View",
-    url: "templates/default-conference-view",
+    url: "default-conference-view",
   },
 ];
 
