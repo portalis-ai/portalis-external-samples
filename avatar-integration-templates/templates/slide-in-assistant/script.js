@@ -23,6 +23,7 @@
     // Set up event listeners
     window.addEventListener("resize", updateLayout);
     floatingButton.addEventListener("click", toggleModal);
+    floatingButton.addEventListener("click", toggleActiveCallOverlay);
     closeButton.addEventListener("click", closeModal);
     document.addEventListener("keydown", handleKeyPress);
 
@@ -50,8 +51,24 @@
       </video>`;
   }
 
-  function setActiveCallIcon() {
-    floatingButton.innerHTML = activeCallIcon;
+  function toggleActiveCallOverlay() {
+    // Check if overlay exists, create it if not
+    let overlay = floatingButton.querySelector(".floating-button-overlay");
+
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.className = "floating-button-overlay";
+      floatingButton.appendChild(overlay);
+    }
+
+    overlay.innerHTML = activeCallIcon;
+
+    // Toggle the "active" class
+    if (overlay.classList.contains("active")) {
+      overlay.classList.remove("active"); // Hide the overlay
+    } else {
+      overlay.classList.add("active"); // Show the overlay
+    }
   }
 
   function hideTooltip() {
@@ -82,7 +99,6 @@
 
     // Hide tooltip and update other elements
     hideTooltip();
-    setActiveCallIcon();
     updateLayout();
     document.body.style.overflow = "hidden";
   }
@@ -102,7 +118,7 @@
       // Reset content opacity for next open
       modalContent.style.opacity = "1";
 
-      setAvatarPreview();
+      //setAvatarPreview();
       document.body.style.overflow = "";
     }, 200); // Match transition duration in CSS
   }

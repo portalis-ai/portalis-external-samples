@@ -1,6 +1,6 @@
 :root {
     --bubbleringcolor: #9183CA; /* UPDATE RING COLOR HERE*/
-    --bubble-activeCall-interior-color: white; /* UPDATE RING COLOR HERE*/
+    --bubble-activeCall-interior-color: #D5D0E5; /* UPDATE RING COLOR HERE*/
     --bubble-activeCall-icon-color: #9183CA; /* UPDATE ICON COLOR HERE*/
 
     --headerFont: 'Montserrat', Arial, sans-serif; /* UPDATE FONT HERE */
@@ -40,6 +40,25 @@ body {
     pointer-events: auto;
 }
 
+/* Overlay for the floating button */
+#portalis-widget .floating-button .floating-button-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bubble-activeCall-interior-color); /* Semi-transparent black overlay */
+    border-radius: 50%; /* Match the button's shape */
+    display: none; /* Initially hidden */
+    z-index: 2; /* Ensure it appears above the button content */
+    pointer-events: none; /* Prevent interaction with the overlay */
+  }
+  
+  /* Show the overlay when active */
+  #portalis-widget .floating-button .floating-button-overlay.active {
+    display: block;
+    pointer-events: auto; /* Allow interaction when visible */
+  }
 
 
 #portalis-widget .floating-button:hover {
