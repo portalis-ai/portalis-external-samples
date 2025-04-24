@@ -1,5 +1,7 @@
 :root {
-    --bubbleringcolor: #5eda4e; /* UPDATE RING COLOR HERE*/
+    --bubbleringcolor: #9183CA; /* UPDATE RING COLOR HERE*/
+    --bubble-activeCall-interior-color: white; /* UPDATE RING COLOR HERE*/
+    --bubble-activeCall-icon-color: #9183CA; /* UPDATE ICON COLOR HERE*/
 
     --headerFont: 'Montserrat', Arial, sans-serif; /* UPDATE FONT HERE */
 }
@@ -10,6 +12,10 @@
     z-index: 999999;
     width: 0;
     height: 0;
+}
+
+body {
+    background-color: #1E1E1E;
 }
 
 
@@ -34,10 +40,12 @@
     pointer-events: auto;
 }
 
+
+
 #portalis-widget .floating-button:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
     transform: scale(1.05);
-    background: var(--bubbleringcolor);
+    background: var(--bubble-activeCall-interior-color);
 }
 
 #portalis-widget .video-preview {
@@ -51,7 +59,10 @@
     position: fixed;
     pointer-events: auto;
     z-index: 1001;
-    display: none;
+    /* Change from display:none to opacity/visibility for transitions */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     /* Mobile-first: full screen */
     top: 0;
     left: 0;
@@ -63,7 +74,9 @@
 }
 
 #portalis-widget .modal-overlay.active {
-    display: block;
+    /* Change from display:block to opacity/visibility */
+    opacity: 1;
+    visibility: visible;
 }
 
 #portalis-widget .modal-content {
@@ -119,16 +132,21 @@
 }
 
 #portalis-widget .tooltip {
-    display: none;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 8px 12px;
+    position: absolute; /* Position relative to the floating button */
+    bottom: 300px; /* Increased from 80px to move tooltip higher */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    background: rgba(0, 0, 0, 0.8); /* Tooltip background color */
+    color: white; /* Tooltip text color */
+    padding: 15px 20px; /* Increased padding from 8px 12px */
     border-radius: 4px;
     font-size: 14px;
     pointer-events: none;
     z-index: 1002;
     white-space: nowrap;
+    opacity: 0; /* Start with 0 opacity instead of display: none */
+    transition: opacity 1s ease; /* Add fade transition */
+    visibility: hidden; /* Hide it but allow for transitions */
 }
 
 /* Tablet and larger screens */
@@ -154,7 +172,8 @@
     }
 
     #portalis-widget .tooltip {
-        display: block;
+        visibility: visible; /* Make it visible on non-mobile */
+        opacity: 0; /* But still transparent initially */
     }
 }
 
@@ -177,4 +196,16 @@
         height: 80vh;
         bottom: 120px;
     }
+}
+
+
+#activeCallIcon {
+    color: var(--bubbleringcolor);
+    font-size: 100px;
+    color: #9183CA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }

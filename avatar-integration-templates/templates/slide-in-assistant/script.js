@@ -1,20 +1,39 @@
 (function () {
-  // Get DOM elements
+  // ==================== Configuration ====================
+  const avatarPreviewURL =
+    "https://www.dropbox.com/scl/fi/7z3y6fxma23uoifzy13ak/Jess-Preview.mp4?rlkey=0h20xim0qaifrqlirpx1kwxcy&st=yci8yvda&raw=1";
+  const activeCallIcon = `<i class="bi bi-x" id="activeCallIcon"></i>`;
+
+  // ==================== DOM Elements ====================
   const widget = document.getElementById("portalis-widget");
   const floatingButton = widget.querySelector(".floating-button");
   const modalOverlay = widget.querySelector(".modal-overlay");
   const closeButton = widget.querySelector(".close-button");
   const tooltip = widget.querySelector(".tooltip");
+  const modalContent = modalOverlay.querySelector(".modal-content");
 
-  // Avatar preview video URL - replace with actual URL
-  const avatarPreviewURL =
-    "https://www.dropbox.com/scl/fi/7z3y6fxma23uoifzy13ak/Jess-Preview.mp4?rlkey=0h20xim0qaifrqlirpx1kwxcy&st=yci8yvda&raw=1";
-  const activeCallURL =
-    "https://www.dropbox.com/scl/fi/0kxx4enwsv0hnu0omp2ry/x_image.png?rlkey=77mn0c4bi0ne8hy2le2z5wvfe&st=lvv9mvx7&raw=1";
-
+  // ==================== State ====================
   let isMobile = window.innerWidth < 768;
 
-  // Handle responsive layout
+  // ==================== Initialization ====================
+  function init() {
+    // Set initial avatar preview
+    setAvatarPreview();
+
+    // Set up event listeners
+    window.addEventListener("resize", updateLayout);
+    floatingButton.addEventListener("click", toggleModal);
+    closeButton.addEventListener("click", closeModal);
+    document.addEventListener("keydown", handleKeyPress);
+
+    // Setup tooltip behavior for non-mobile
+    if (!isMobile) {
+      setupTooltip();
+    }
+  }
+
+  // ==================== Core Functions ====================
+
   function updateLayout() {
     isMobile = window.innerWidth < 768;
     if (isMobile && modalOverlay.classList.contains("active")) {
@@ -24,87 +43,99 @@
     }
   }
 
-  // Initialize with avatar preview
-  floatingButton.innerHTML = `
+  function setAvatarPreview() {
+    floatingButton.innerHTML = `
       <video class="video-preview" autoplay loop muted playsinline>
-          <source src="${avatarPreviewURL}" type="video/mp4">
+        <source src="${avatarPreviewURL}" type="video/mp4">
       </video>`;
+  }
 
-  window.addEventListener("resize", updateLayout);
+  function setActiveCallIcon() {
+    floatingButton.innerHTML = activeCallIcon;
+  }
 
-  // Handle button click
-  floatingButton.addEventListener("click", () => {
+  function hideTooltip() {
+    tooltip.style.opacity = "0";
+  }
+
+  function toggleModal() {
     const isActive = modalOverlay.classList.contains("active");
 
     if (!isActive) {
-      // Opening the modal
-      modalOverlay.classList.add("active");
-      floatingButton.innerHTML = `<img class="video-preview" src="${activeCallURL}"/>`;
-      updateLayout();
+      openModal();
     } else {
-      // Closing the modal
-      modalOverlay.querySelector(".modal-content").style.opacity = "0";
-      setTimeout(() => {
-        modalOverlay.classList.remove("active");
-        modalOverlay.querySelector(".modal-content").style.opacity = "1";
-        floatingButton.innerHTML = `
-                  <video class="video-preview" autoplay loop muted playsinline>
-                      <source src="${avatarPreviewURL}" type="video/mp4">
-                  </video>`;
-        document.body.style.overflow = "";
-      }, 500);
+      closeModal();
     }
-  });
-
-  // Handle close button click
-  closeButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    modalOverlay.querySelector(".modal-content").style.opacity = "0";
-    setTimeout(() => {
-      modalOverlay.classList.remove("active");
-      modalOverlay.querySelector(".modal-content").style.opacity = "1";
-      floatingButton.innerHTML = `
-              <video class="video-preview" autoplay loop muted playsinline>
-                  <source src="${avatarPreviewURL}" type="video/mp4">
-              </video>`;
-      document.body.style.overflow = "";
-    }, 500);
-  });
-
-  // Handle escape key
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
-      modalOverlay.querySelector(".modal-content").style.opacity = "0";
-      setTimeout(() => {
-        modalOverlay.classList.remove("active");
-        modalOverlay.querySelector(".modal-content").style.opacity = "1";
-        floatingButton.innerHTML = `
-                  <video class="video-preview" autoplay loop muted playsinline>
-                      <source src="${avatarPreviewURL}" type="video/mp4">
-                  </video>`;
-        document.body.style.overflow = "";
-      }, 500);
-    }
-  });
-
-  // Tooltip handling only for non-mobile
-  function positionTooltip(e) {
-    const rect = floatingButton.getBoundingClientRect();
-    tooltip.style.left = rect.left - tooltip.offsetWidth - 20 + "px";
-    tooltip.style.top =
-      rect.top + rect.height / 2 - tooltip.offsetHeight / 2 + "px";
   }
 
-  if (!isMobile) {
+  function openModal() {
+    // Make the overlay visible but with opacity 0
+    modalOverlay.style.visibility = "visible";
+    modalOverlay.style.opacity = "0";
+
+    // Force browser reflow to ensure the transition works
+    void modalOverlay.offsetWidth;
+
+    // Set opacity to 1 to trigger the fade-in transition
+    modalOverlay.style.opacity = "1";
+    modalOverlay.classList.add("active");
+
+    // Hide tooltip and update other elements
+    hideTooltip();
+    setActiveCallIcon();
+    updateLayout();
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal(e) {
+    if (e) e.stopPropagation();
+
+    // Start the fade-out transition
+    modalContent.style.opacity = "0";
+    modalOverlay.style.opacity = "0";
+
+    setTimeout(() => {
+      // After the transition completes, hide the overlay completely
+      modalOverlay.classList.remove("active");
+      modalOverlay.style.visibility = "hidden";
+
+      // Reset content opacity for next open
+      modalContent.style.opacity = "1";
+
+      setAvatarPreview();
+      document.body.style.overflow = "";
+    }, 200); // Match transition duration in CSS
+  }
+
+  // ==================== Event Handlers ====================
+
+  function handleKeyPress(e) {
+    if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
+      closeModal();
+    }
+  }
+
+  function setupTooltip() {
+    function positionTooltip() {
+      const rect = floatingButton.getBoundingClientRect();
+      tooltip.style.left = rect.left - tooltip.offsetWidth + 100 + "px";
+      tooltip.style.top =
+        rect.top + rect.height / 2 - tooltip.offsetHeight / 2 + "px";
+    }
+
     floatingButton.addEventListener("mouseover", () => {
-      tooltip.style.display = "block";
-      positionTooltip();
+      // Only show tooltip if modal is not active
+      if (!modalOverlay.classList.contains("active")) {
+        positionTooltip();
+        tooltip.style.opacity = "1";
+      }
     });
 
     floatingButton.addEventListener("mouseout", () => {
-      tooltip.style.display = "none";
+      tooltip.style.opacity = "0";
     });
-
-    floatingButton.addEventListener("mousemove", positionTooltip);
   }
+
+  // ==================== Initialize ====================
+  init();
 })();
