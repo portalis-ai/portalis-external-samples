@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Template data - stored in one place for easy management
   const templatesArr = [
     {
-      gifPath: "",
+      gifPath: "assets/floating-avatar-widget.gif",
       text: "Avatar appears as a floating button in the corner of the screen. Upon clicking, it expands to show the avatar modal above the button. For mobile, the avatar modal appears as a full-screen overlay.",
-      title: "Slide-In Assistant",
-      url: "slide-in-assistant",
+      title: "Floating Avatar Widget",
+      url: "floating-avatar-widget",
     },
     {
       gifPath: "",
