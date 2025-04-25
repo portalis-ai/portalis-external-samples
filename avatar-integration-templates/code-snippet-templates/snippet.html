@@ -23,116 +23,116 @@
 
       body {
         font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
-          Roboto, "Helvetica Neue", Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        line-height: 1.5;
-        height: 100%;
-        overflow: hidden;
+          Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.5 !important;
+        height: 100% !important;
+        overflow: hidden !important;
       }
 
       .code-tabs {
-        height: 100vh;
-        border-radius: 0;
-        overflow: hidden;
-        border: none;
+        height: 100vh !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        border: none !important;
       }
 
       .tab-buttons {
-        display: flex;
-        background-color: var(--color-light);
-        border-bottom: 1px solid var(--color-dark-purple);
+        display: flex !important;
+        background-color: var(--color-light) !important;
+        border-bottom: 1px solid var(--color-dark-purple) !important;
       }
 
       .tab-button {
-        padding: 12px 20px;
-        border: none;
-        background: transparent;
-        font-weight: 600;
-        color: #333;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border-bottom: 2px solid transparent;
+        padding: 12px 20px !important;
+        border: none !important;
+        background: transparent !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        border-bottom: 2px solid transparent !important;
       }
 
       .tab-button:hover {
-        color: var(--color-white);
-        background-color: rgba(145, 131, 202, 0.2);
+        color: var(--color-white) !important;
+        background-color: rgba(145, 131, 202, 0.2) !important;
       }
 
       .tab-button.active {
-        color: var(--color-white);
-        border-bottom-color: var(--color-mid);
-        background-color: var(--color-dark-purple);
+        color: var(--color-white) !important;
+        border-bottom-color: var(--color-mid) !important;
+        background-color: var(--color-dark-purple) !important;
       }
 
       .tab-content {
-        display: none;
-        position: relative;
-        height: calc(100vh - 45px); /* Adjust based on tab height */
+        display: none !important;
+        position: relative !important;
+        height: calc(100vh - 45px) !important; /* Adjust based on tab height */
       }
 
       .tab-content.active {
-        display: block;
+        display: block !important;
       }
 
       /* Prism code container styling */
       .code-container {
-        position: relative;
-        height: 100%;
+        position: relative !important;
+        height: 100% !important;
       }
 
       /* Copy button styling */
       .copy-button {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        padding: 6px 12px;
-        background-color: var(--color-dark-purple);
-        color: var(--color-white);
-        border: none;
-        border-radius: 4px;
-        font-size: 12px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        z-index: 10;
-        opacity: 0.9;
+        position: absolute !important;
+        top: 5px !important;
+        right: 5px !important;
+        padding: 6px 12px !important;
+        background-color: var(--color-dark-purple) !important;
+        color: var(--color-white) !important;
+        border: none !important;
+        border-radius: 4px !important;
+        font-size: 12px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        z-index: 10 !important;
+        opacity: 0.9 !important;
       }
 
       .copy-button:hover {
-        background-color: var(--color-mid);
-        opacity: 1;
+        background-color: var(--color-mid) !important;
+        opacity: 1 !important;
       }
 
       .copy-button.copied {
-        background-color: var(--color-mid);
+        background-color: var(--color-mid) !important;
       }
 
       pre[class*="language-"] {
-        margin: 0;
-        border-radius: 0;
+        margin: 0 !important;
+        border-radius: 0 !important;
         background-color: var(--color-code-bg) !important;
-        height: 100%;
-        overflow: auto;
+        height: 100% !important;
+        overflow: auto !important;
       }
 
       /* Custom Prism.js Syntax Highlighting Theme */
       code[class*="language-"],
       pre[class*="language-"] {
-        color: var(--color-light);
-        background: none;
-        text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+        color: var(--color-light) !important;
+        background: none !important;
+        text-shadow: 0 1px rgba(0, 0, 0, 0.3) !important;
         font-family: "SFMono-Regular", Consolas, Monaco, "Andale Mono",
-          "Ubuntu Mono", monospace;
-        font-size: 14px;
-        text-align: left;
-        white-space: pre;
-        word-spacing: normal;
-        word-break: normal;
-        word-wrap: normal;
-        line-height: 1.5;
-        tab-size: 4;
-        hyphens: none;
+          "Ubuntu Mono", monospace !important;
+        font-size: 14px !important;
+        text-align: left !important;
+        white-space: pre !important;
+        word-spacing: normal !important;
+        word-break: normal !important;
+        word-wrap: normal !important;
+        line-height: 1.5 !important;
+        tab-size: 4 !important;
+        hyphens: none !important;
       }
 
       /* Token colors */
@@ -140,11 +140,11 @@
       .token.prolog,
       .token.doctype,
       .token.cdata {
-        color: #6a737d;
+        color: #6a737d !important;
       }
 
       .token.punctuation {
-        color: var(--color-light);
+        color: var(--color-light) !important;
       }
 
       .token.property,
@@ -154,7 +154,7 @@
       .token.constant,
       .token.symbol,
       .token.deleted {
-        color: var(--color-mid);
+        color: var(--color-mid) !important;
       }
 
       .token.selector,
@@ -163,7 +163,7 @@
       .token.char,
       .token.builtin,
       .token.inserted {
-        color: #a5d6a7;
+        color: #a5d6a7 !important;
       }
 
       .token.operator,
@@ -171,24 +171,24 @@
       .token.url,
       .language-css .token.string,
       .style .token.string {
-        color: var(--color-white);
+        color: var(--color-white) !important;
       }
 
       .token.atrule,
       .token.attr-value,
       .token.keyword {
-        color: var(--color-mid);
+        color: var(--color-mid) !important;
       }
 
       .token.function,
       .token.class-name {
-        color: #ddbdf2;
+        color: #ddbdf2 !important;
       }
 
       .token.regex,
       .token.important,
       .token.variable {
-        color: #ee9d28;
+        color: #ee9d28 !important;
       }
     </style>
   </head>
