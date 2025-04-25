@@ -1,11 +1,32 @@
+/*===========================================================================
+  TEMPLATE/AVATAR WIDGET STYLES
+===========================================================================*/
+
+/* Variables */
 :root {
     --bubbleringcolor: #9183CA; /* UPDATE RING COLOR HERE*/
     --bubble-activeCall-interior-color: #D5D0E5; /* UPDATE RING COLOR HERE*/
     --bubble-activeCall-icon-color: #9183CA; /* UPDATE ICON COLOR HERE*/
-
     --headerFont: 'Montserrat', Arial, sans-serif; /* UPDATE FONT HERE */
 }
 
+/* Base styles */
+body {
+    background-color: #1E1E1E;
+}
+
+.template-title {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-family: var(--headerFont);
+    font-size: 50px;
+    color: var(--bubbleringcolor);
+    text-align: center;
+    position: relative;
+    z-index: 150; /* Ensure title appears above the iframe */
+}
+
+/* Widget container */
 #portalis-widget {
     position: fixed;
     pointer-events: none;
@@ -14,11 +35,7 @@
     height: 0;
 }
 
-body {
-    background-color: #1E1E1E;
-}
-
-
+/* Floating Button */
 #portalis-widget .floating-button {
     position: fixed;
     bottom: 20px;
@@ -40,33 +57,32 @@ body {
     pointer-events: auto;
 }
 
-/* Overlay for the floating button */
-#portalis-widget .floating-button .floating-button-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bubble-activeCall-interior-color); /* Semi-transparent black overlay */
-    border-radius: 50%; /* Match the button's shape */
-    display: none; /* Initially hidden */
-    z-index: 2; /* Ensure it appears above the button content */
-    pointer-events: none; /* Prevent interaction with the overlay */
-  }
-  
-  /* Show the overlay when active */
-  #portalis-widget .floating-button .floating-button-overlay.active {
-    display: block;
-    pointer-events: auto; /* Allow interaction when visible */
-  }
-
-
 #portalis-widget .floating-button:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
     transform: scale(1.05);
     background: var(--bubble-activeCall-interior-color);
 }
 
+/* Button overlay */
+#portalis-widget .floating-button .floating-button-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bubble-activeCall-interior-color);
+    border-radius: 50%;
+    display: none;
+    z-index: 2;
+    pointer-events: none;
+}
+  
+#portalis-widget .floating-button .floating-button-overlay.active {
+    display: block;
+    pointer-events: auto;
+}
+
+/* Video preview */
 #portalis-widget .video-preview {
     width: 100%;
     height: 100%;
@@ -74,11 +90,11 @@ body {
     border-radius: 50%;
 }
 
+/* Modal overlay */
 #portalis-widget .modal-overlay {
     position: fixed;
     pointer-events: auto;
     z-index: 1001;
-    /* Change from display:none to opacity/visibility for transitions */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -93,11 +109,11 @@ body {
 }
 
 #portalis-widget .modal-overlay.active {
-    /* Change from display:block to opacity/visibility */
     opacity: 1;
     visibility: visible;
 }
 
+/* Modal content */
 #portalis-widget .modal-content {
     background: white;
     width: 100%;
@@ -113,6 +129,7 @@ body {
     opacity: 1;
 }
 
+/* Modal header */
 #portalis-widget .modal-header {
     padding: 15px 20px;
     background: var(--bubbleringcolor);
@@ -125,6 +142,7 @@ body {
     letter-spacing: 0.02em;
 }
 
+/* Close button */
 #portalis-widget .close-button {
     background: none;
     border: none;
@@ -139,6 +157,7 @@ body {
     justify-content: center;
 }
 
+/* Avatar iFrame container */
 #portalis-widget .iframe-container {
     flex: 1;
     overflow: hidden;
@@ -150,26 +169,39 @@ body {
     border: none;
 }
 
+/* Tooltip */
 #portalis-widget .tooltip {
-    position: absolute; /* Position relative to the floating button */
-    bottom: 300px; /* Increased from 80px to move tooltip higher */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for centering */
-    background: rgba(0, 0, 0, 0.8); /* Tooltip background color */
-    color: white; /* Tooltip text color */
-    padding: 15px 20px; /* Increased padding from 8px 12px */
+    position: absolute;
+    bottom: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px 20px;
     border-radius: 4px;
     font-size: 14px;
     pointer-events: none;
     z-index: 1002;
     white-space: nowrap;
-    opacity: 0; /* Start with 0 opacity instead of display: none */
-    transition: opacity 1s ease; /* Add fade transition */
-    visibility: hidden; /* Hide it but allow for transitions */
+    opacity: 0;
+    transition: opacity 1s ease;
+    visibility: hidden;
 }
 
-/* Tablet and larger screens */
+/* Active call icon */
+#activeCallIcon {
+    color: var(--bubble-activeCall-icon-color);
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Template responsive styles */
 @media (min-width: 768px) {
+    /* Avatar widget responsive styles */
     #portalis-widget .floating-button {
         width: 80px;
         height: 80px;
@@ -191,12 +223,11 @@ body {
     }
 
     #portalis-widget .tooltip {
-        visibility: visible; /* Make it visible on non-mobile */
-        opacity: 0; /* But still transparent initially */
+        visibility: visible;
+        opacity: 0;
     }
 }
 
-/* Desktop */
 @media (min-width: 1200px) {
     #portalis-widget .floating-button {
         width: 100px;
@@ -209,7 +240,13 @@ body {
     }
 }
 
-/* Handle shorter screens */
+@media (max-width: 767px) {
+    .template-title {
+        font-size: 36px;
+        margin-top: 20px;
+    }
+}
+
 @media (max-height: 700px) and (min-width: 768px) {
     #portalis-widget .modal-overlay {
         height: 80vh;
@@ -217,14 +254,44 @@ body {
     }
 }
 
+/*===========================================================================
+  CODE SNIPPET STYLES
+===========================================================================*/
 
-#activeCallIcon {
-    color: var(--bubbleringcolor);
-    font-size: 100px;
-    color: #9183CA;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+/* Code snippet iframe */
+.code-snippet-frame {
+    position: absolute;
+    top: 100px; /* Position below the title */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 1000px;
+    height: calc(100vh - 140px); /* Leave space for padding */
+    z-index: 100;
+    border: 2px solid var(--bubbleringcolor);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    pointer-events: auto !important; /* Critical for allowing interaction */
+}
+
+/* Code snippet responsive styles */
+@media (min-width: 768px) {
+    .code-snippet-frame {
+        width: 80%;
+        max-width: 1000px;
+    }
+}
+
+@media (max-width: 767px) {
+    .code-snippet-frame {
+        width: 95%;
+        top: 90px;
+        height: calc(100vh - 120px);
+    }
+}
+
+@media (max-height: 700px) and (min-width: 768px) {
+    .code-snippet-frame {
+        height: calc(100vh - 120px);
+    }
 }

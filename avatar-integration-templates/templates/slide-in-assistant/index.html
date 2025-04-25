@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Portalis AI Chat Widget</title>
+    <title>Portalis AI Floating Avatar Widget</title>
     <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
@@ -9,13 +9,29 @@
     />
   </head>
   <body>
+    <!-- Page Title -->
+    <h1 class="template-title">Floating Avatar Widget</h1>
+
+    <h2 class="instruction-title">Instructions</h2>
+
+    <!-- ===================== CODE SNIPPET SECTION ===================== -->
+    <!-- Code snippet iframe moved outside the widget for proper interaction -->
+    <iframe
+      src="./snippet.html"
+      class="code-snippet-frame"
+      title="Code Snippet"
+      frameborder="0"
+      scrolling="auto"
+      allowtransparency="true"
+      allow="clipboard-read; clipboard-write"
+    ></iframe>
+
+    <!-- ===================== AVATAR WIDGET SECTION ===================== -->
     <!-- Start of Portalis AI Chat Widget -->
     <div id="portalis-widget">
       <!-- Floating circle button -->
-      <div class="floating-button">
-        <!-- The overlay div needs to exist -->
-        <div class="floating-button-overlay"></div>
-      </div>
+      <div class="floating-button"></div>
+
       <!-- Modal overlay -->
       <div class="modal-overlay">
         <div class="modal-content">
@@ -42,6 +58,8 @@
       <!-- Tooltip -->
       <div class="tooltip">Jess - Your PortalisAI Assistant!</div>
     </div>
+
+    <!-- Scripts -->
     <script src="script.js"></script>
   </body>
 </html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Snippet Template</title>
+
+    <!-- Include Prism CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+    />
+
+    <!-- Inline CSS for iframe usage -->
+    <style>
+      :root {
+        --color-light: #d5d0e5;
+        --color-mid: #9183ca;
+        --color-white: #ffffff;
+        --color-dark-purple: #5b4b94;
+        --color-code-bg: #000000;
+      }
+
+      body {
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.5;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .code-tabs {
+        height: 100vh;
+        border-radius: 0;
+        overflow: hidden;
+        border: none;
+      }
+
+      .tab-buttons {
+        display: flex;
+        background-color: var(--color-light);
+        border-bottom: 1px solid var(--color-dark-purple);
+      }
+
+      .tab-button {
+        padding: 12px 20px;
+        border: none;
+        background: transparent;
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-bottom: 2px solid transparent;
+      }
+
+      .tab-button:hover {
+        color: var(--color-white);
+        background-color: rgba(145, 131, 202, 0.2);
+      }
+
+      .tab-button.active {
+        color: var(--color-white);
+        border-bottom-color: var(--color-mid);
+        background-color: var(--color-dark-purple);
+      }
+
+      .tab-content {
+        display: none;
+        position: relative;
+        height: calc(100vh - 45px); /* Adjust based on tab height */
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Prism code container styling */
+      .code-container {
+        position: relative;
+        height: 100%;
+      }
+
+      /* Copy button styling */
+      .copy-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        padding: 6px 12px;
+        background-color: var(--color-dark-purple);
+        color: var(--color-white);
+        border: none;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        z-index: 10;
+        opacity: 0.9;
+      }
+
+      .copy-button:hover {
+        background-color: var(--color-mid);
+        opacity: 1;
+      }
+
+      .copy-button.copied {
+        background-color: var(--color-mid);
+      }
+
+      pre[class*="language-"] {
+        margin: 0;
+        border-radius: 0;
+        background-color: var(--color-code-bg) !important;
+        height: 100%;
+        overflow: auto;
+      }
+
+      /* Custom Prism.js Syntax Highlighting Theme */
+      code[class*="language-"],
+      pre[class*="language-"] {
+        color: var(--color-light);
+        background: none;
+        text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+        font-family: "SFMono-Regular", Consolas, Monaco, "Andale Mono",
+          "Ubuntu Mono", monospace;
+        font-size: 14px;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.5;
+        tab-size: 4;
+        hyphens: none;
+      }
+
+      /* Token colors */
+      .token.comment,
+      .token.prolog,
+      .token.doctype,
+      .token.cdata {
+        color: #6a737d;
+      }
+
+      .token.punctuation {
+        color: var(--color-light);
+      }
+
+      .token.property,
+      .token.tag,
+      .token.boolean,
+      .token.number,
+      .token.constant,
+      .token.symbol,
+      .token.deleted {
+        color: var(--color-mid);
+      }
+
+      .token.selector,
+      .token.attr-name,
+      .token.string,
+      .token.char,
+      .token.builtin,
+      .token.inserted {
+        color: #a5d6a7;
+      }
+
+      .token.operator,
+      .token.entity,
+      .token.url,
+      .language-css .token.string,
+      .style .token.string {
+        color: var(--color-white);
+      }
+
+      .token.atrule,
+      .token.attr-value,
+      .token.keyword {
+        color: var(--color-mid);
+      }
+
+      .token.function,
+      .token.class-name {
+        color: #ddbdf2;
+      }
+
+      .token.regex,
+      .token.important,
+      .token.variable {
+        color: #ee9d28;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="code-tabs">
+      <div class="tab-buttons">
+        <!-- Add tab buttons here - example: -->
+        <button class="tab-button active" data-tab="javascript">
+          JavaScript
+        </button>
+        <button class="tab-button" data-tab="python">Python</button>
+        <!-- Add more tabs as needed -->
+      </div>
+
+      <!-- JavaScript Tab -->
+      <div class="tab-content active" id="javascript-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#javascript-code">
+            Copy
+          </button>
+          <pre><code id="javascript-code" class="language-javascript">
+// Your JavaScript code here
+console.log("Hello world!");
+          </code></pre>
+        </div>
+      </div>
+
+      <!-- Python Tab -->
+      <div class="tab-content" id="python-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#python-code">
+            Copy
+          </button>
+          <pre><code id="python-code" class="language-python">
+# Your Python code here
+print("Hello world!")
+          </code></pre>
+        </div>
+      </div>
+
+      <!-- Add more tab content divs as needed -->
+    </div>
+
+    <!-- Include Prism JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <!-- Include additional Prism language support as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <!-- Include Clipboard.js for copy functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Custom JavaScript with iframe support -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Tab switching functionality
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            // Remove active class from all tabs
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            tabContents.forEach((content) =>
+              content.classList.remove("active")
+            );
+
+            // Add active class to clicked tab
+            button.classList.add("active");
+            const tabId = `${button.dataset.tab}-tab`;
+            document.getElementById(tabId).classList.add("active");
+
+            // Notify parent page about tab change (optional)
+            if (window.parent !== window) {
+              window.parent.postMessage(
+                {
+                  type: "tabChange",
+                  tab: button.dataset.tab,
+                },
+                "*"
+              );
+            }
+          });
+        });
+
+        // Initialize Clipboard.js
+        const clipboard = new ClipboardJS(".copy-button");
+
+        clipboard.on("success", function (e) {
+          const button = e.trigger;
+          const originalText = button.textContent;
+
+          // Change button text to indicate success
+          button.textContent = "Copied!";
+
+          // Reset button text after 2 seconds
+          setTimeout(function () {
+            button.textContent = originalText;
+          }, 2000);
+
+          e.clearSelection();
+
+          // Notify parent page about copy (optional)
+          if (window.parent !== window) {
+            window.parent.postMessage(
+              {
+                type: "codeCopied",
+                content: e.text,
+              },
+              "*"
+            );
+          }
+        });
+
+        clipboard.on("error", function (e) {
+          const button = e.trigger;
+          button.textContent = "Failed!";
+
+          setTimeout(function () {
+            button.textContent = "Copy";
+          }, 2000);
+        });
+
+        // Listen for messages from parent page
+        window.addEventListener("message", function (event) {
+          // Check if message is from parent
+          if (event.source === window.parent) {
+            const data = event.data;
+
+            // Example: Update code content
+            if (data.type === "updateCode" && data.language && data.code) {
+              const codeId = `${data.language}-code`;
+              const codeElement = document.getElementById(codeId);
+
+              if (codeElement) {
+                codeElement.textContent = data.code;
+                Prism.highlightElement(codeElement);
+              }
+            }
+
+            // Example: Switch tab
+            if (data.type === "switchTab" && data.tab) {
+              const tabButton = document.querySelector(
+                `.tab-button[data-tab="${data.tab}"]`
+              );
+              if (tabButton) {
+                tabButton.click();
+              }
+            }
+          }
+        });
+
+        // Notify parent that iframe is ready
+        if (window.parent !== window) {
+          window.parent.postMessage(
+            {
+              type: "iframeReady",
+            },
+            "*"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
