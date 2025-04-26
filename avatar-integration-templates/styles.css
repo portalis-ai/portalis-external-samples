@@ -85,3 +85,12 @@ main {
     background-color: #D5D0E5;
     transform: scale(1.05);
 }
+
+.avatar-gif {
+    height: 300px; /* Set a fixed height */
+    max-width: 1000px; /* Set a max width for larger screens */
+    width: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensures the GIF fills the area without distortion */
+    display: block; /* Ensures proper alignment */
+    margin: 0 auto; /* Centers the GIF horizontally */
+}

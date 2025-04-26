@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
       url: "mobile-portrait-call",
     },
     {
-      gifPath: "",
+      gifPath: "assets/centered-support-modal.gif",
       text: "Modal window will appear centered on the screen with a dark overlay hiding the background. ",
       title: "Centered Support Modal",
       url: "centered-support-modal",
