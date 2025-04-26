@@ -60,9 +60,9 @@ body {
     --support-button-color: #9183CA; /* TODO: Update this value to match your brand's primary accent color for the support button */
     --support-button-color-hover: #D5D0E5; /* TODO: Update this value to match your brand's secondary color for button hover states */
     --avatar-modal-header-color: #9183CA; /* TODO: Update this value to match your brand's color for the modal header */
-    --bubble-activeCall-icon-color: #9183CA; /* TODO: Update this value to control the color of icons in the modal */
     --headerFont: 'Montserrat', Arial, sans-serif; /* TODO: Update this value to match your brand's font family for consistent typography */
     --support-button-text-color: white; /* TODO: Update this value to control the text color on your support button for better contrast */
+    --modal-z-index: 100;
 }
 
 /* Support button styles */
@@ -81,7 +81,7 @@ body {
     cursor: pointer;
     border: none;
     transition: background-color 0.2s;
-    z-index: 50;
+    z-index: 0;
 }
 
 .support-button:hover {
@@ -92,7 +92,7 @@ body {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 50;
+    z-index: var(--modal-z-index)+1;
     opacity: 0;
     transition: opacity 0.3s;
 }
@@ -103,7 +103,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 51;
+    z-index: var(--modal-z-index)+2;
     visibility: hidden;
 }
 
@@ -170,4 +170,16 @@ body {
 
 .overlay.show {
     opacity: 1;
+}
+/* Ensure the iframe stays behind the overlay */
+.code-snippet-frame {
+    position: relative;
+    z-index: var(--modal-z-index); /* Lower than overlay and modal */
+}
+/* Modal header */
+.panel-title {
+    color: white;
+    font-family: var(--headerFont);
+    display: flex;
+    justify-content: space-between;
 }
