@@ -3,18 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Support Panel</title>
+    <title>Centered Support Modal</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="snippet.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
   </head>
   <body>
-    <script src="script.js"></script>
-    <div class="mainSite">
-      <p>This is an example site showcasing the support button template.</p>
+    <!-- Page Title -->
+    <h1 class="template-title">Centered Support Modal</h1>
+    <div class="content-container">
+      <h2 class="subtitles">Instructions</h2>
+      <ul class="instructions-list">
+        <li><strong>HTML</strong></li>
+        <ul>
+          <li>
+            <strong>iframe src</strong> - Replace with your iframe source from
+            your Portalis AI dashboard
+          </li>
+        </ul>
+        <li><strong>CSS</strong></li>
+        <ul>
+          <li>
+            <strong>--support-button-color</strong> - Update to match your
+            brand's primary accent color
+          </li>
+          <li>
+            <strong>--support-button-color-hover</strong> - Update to match your
+            brand's secondary color
+          </li>
+          <li>
+            <strong>--avatar-modal-header-color</strong> - Update to match your
+            brand's header color
+          </li>
+          <li>
+            <strong>--headerFont</strong> - Update to match your brand's font
+            family
+          </li>
+          <li>
+            <strong>--support-button-text-color</strong> - Update to control the
+            text color on your support button
+          </li>
+        </ul>
+      </ul>
+
+      <!-- ===================== CODE SNIPPET SECTION ===================== -->
+      <h2 class="subtitles">Code Snippet</h2>
+      <!-- Code snippet iframe moved outside the widget for proper interaction -->
+      <iframe
+        src="./snippet.html"
+        class="code-snippet-frame"
+        title="Code Snippet"
+        frameborder="0"
+        scrolling="auto"
+        allowtransparency="true"
+        allow="clipboard-read; clipboard-write"
+      ></iframe>
     </div>
+
+    <!-- ===================== CENTERED SUPPORT MODAL SECTION ===================== -->
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
     <script>
       // Initialize the support panel with your support chat URL
       const supportPanel = new SupportPanel(
-        "https://chat.portalis.ai/guest?orgId=cd09871f-0a8d-49db-8829-4efc8fed21d0&slotId=95e1fd1e-e7e0-4ef3-82d5-61c35bfe3133" // YOUR PORTALIS AI CHAT URL HERE
+        "https://chat.portalis.ai/guest?orgId=cd09871f-0a8d-49db-8829-4efc8fed21d0&slotId=95e1fd1e-e7e0-4ef3-82d5-61c35bfe3133" // TODO: Replace with your Portalis AI chat URL from your dashboard
       );
     </script>
   </body>

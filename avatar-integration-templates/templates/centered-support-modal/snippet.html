@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Snippet Template</title>
+
+    <!-- Include Prism CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+    />
+
+    <!-- Inline CSS for iframe usage -->
+    <style>
+      :root {
+        --color-light: #d5d0e5 !important;
+        --color-mid: #9183ca !important;
+        --color-white: #ffffff !important;
+        --color-dark-purple: #5b4b94 !important;
+        --color-code-bg: #000000 !important;
+        --selection-color: rgb(17, 17, 17) !important;
+        --selection-bg: #d5d0e5 !important;
+      }
+
+      ::selection {
+        color: var(--selection-color) !important;
+        background: var(--selection-bg) !important;
+      }
+
+      body.code-snippet-body {
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.5 !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        background-color: var(--color-code-bg) !important;
+      }
+
+      .code-tabs {
+        height: 100vh !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        border: none !important;
+      }
+
+      .code-tabs .tab-buttons {
+        display: flex !important;
+        background-color: var(--color-light) !important;
+        border-bottom: 1px solid var(--color-dark-purple) !important;
+        position: relative !important;
+        z-index: 100 !important;
+      }
+
+      .code-tabs .tab-button {
+        padding: 12px 20px !important;
+        border: none !important;
+        background: transparent !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        border-bottom: 2px solid transparent !important;
+      }
+
+      .code-tabs .tab-button:hover {
+        color: var(--color-white) !important;
+        background-color: rgba(145, 131, 202, 0.2) !important;
+      }
+
+      .code-tabs .tab-button.active {
+        color: var(--color-white) !important;
+        border-bottom-color: var(--color-mid) !important;
+        background-color: var(--color-code-bg) !important;
+      }
+
+      .code-tabs .tab-content {
+        display: none !important;
+        position: relative !important;
+        height: calc(100vh - 45px) !important; /* Adjust based on tab height */
+      }
+
+      .code-tabs .tab-content.active {
+        display: block !important;
+      }
+
+      /* Prism code container styling */
+      .code-tabs .code-container {
+        position: relative !important;
+        height: 100% !important;
+      }
+
+      /* Copy button styling */
+      .code-tabs .copy-button {
+        position: absolute !important;
+        top: 5px !important;
+        right: 5px !important;
+        padding: 6px 12px !important;
+        background-color: var(--color-dark-purple) !important;
+        color: var(--color-white) !important;
+        border: none !important;
+        border-radius: 4px !important;
+        font-size: 12px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        z-index: 10 !important;
+        opacity: 0.9 !important;
+      }
+
+      .code-tabs .copy-button:hover {
+        background-color: var(--color-mid) !important;
+        opacity: 1 !important;
+      }
+
+      .code-tabs .copy-button.copied {
+        background-color: var(--color-mid) !important;
+      }
+
+      .code-tabs pre[class*="language-"] {
+        margin: 0 !important;
+        border-radius: 0 !important;
+        background-color: var(--color-code-bg) !important;
+        height: 100% !important;
+        overflow: auto !important;
+      }
+
+      /* Custom Prism.js Syntax Highlighting Theme */
+      .code-tabs code[class*="language-"],
+      .code-tabs pre[class*="language-"] {
+        color: var(--color-light) !important;
+        background: none !important;
+        text-shadow: 0 1px rgba(0, 0, 0, 0.3) !important;
+        font-family: "SFMono-Regular", Consolas, Monaco, "Andale Mono",
+          "Ubuntu Mono", monospace !important;
+        font-size: 14px !important;
+        text-align: left !important;
+        white-space: pre !important;
+        word-spacing: normal !important;
+        word-break: normal !important;
+        word-wrap: normal !important;
+        line-height: 1.5 !important;
+        tab-size: 4 !important;
+        hyphens: none !important;
+      }
+
+      /* Token colors */
+      .code-tabs .token.comment,
+      .code-tabs .token.prolog,
+      .code-tabs .token.doctype,
+      .code-tabs .token.cdata {
+        color: #6a737d !important;
+      }
+
+      .code-tabs .token.punctuation {
+        color: var(--color-light) !important;
+      }
+
+      .code-tabs .token.property,
+      .code-tabs .token.tag,
+      .code-tabs .token.boolean,
+      .code-tabs .token.number,
+      .code-tabs .token.constant,
+      .code-tabs .token.symbol,
+      .code-tabs .token.deleted {
+        color: var(--color-mid) !important;
+      }
+
+      .code-tabs .token.selector,
+      .code-tabs .token.attr-name,
+      .code-tabs .token.string,
+      .code-tabs .token.char,
+      .code-tabs .token.builtin,
+      .code-tabs .token.inserted {
+        color: #a5d6a7 !important;
+      }
+
+      .code-tabs .token.operator,
+      .code-tabs .token.entity,
+      .code-tabs .token.url,
+      .code-tabs .language-css .token.string,
+      .code-tabs .style .token.string {
+        color: var(--color-white) !important;
+      }
+
+      .code-tabs .token.atrule,
+      .code-tabs .token.attr-value,
+      .code-tabs .token.keyword {
+        color: var(--color-mid) !important;
+      }
+
+      .code-tabs .token.function,
+      .code-tabs .token.class-name {
+        color: #ddbdf2 !important;
+      }
+
+      .code-tabs .token.regex,
+      .code-tabs .token.important,
+      .code-tabs .token.variable {
+        color: #ee9d28 !important;
+      }
+    </style>
+  </head>
+  <body class="code-snippet-body">
+    <div class="code-tabs">
+      <div class="tab-buttons">
+        <!-- Add tab buttons here - example: -->
+        <button class="tab-button active" data-tab="html">HTML</button>
+        <button class="tab-button" data-tab="javascript">JavaScript</button>
+        <button class="tab-button" data-tab="css">CSS</button>
+        <!-- Add more tabs as needed -->
+      </div>
+
+      <!-- HTML Tab -->
+      <div class="tab-content active" id="html-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#html-code">
+            Copy
+          </button>
+          <pre><code id="html-code" class="language-html">
+<span>&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;</span>
+<span>&lt;script&gt;</span>
+<span>  // Initialize the support panel with your support chat URL</span>
+<span>  const supportPanel = new SupportPanel(</span>
+<span>    &quot;https://chat.portalis.ai/guest?orgId=cd09871f-0a8d-49db-8829-4efc8fed21d0&amp;slotId=95e1fd1e-e7e0-4ef3-82d5-61c35bfe3133&quot; <span>// TODO: Replace with your Portalis AI chat URL from your dashboard</span></span>
+<span>  );</span>
+<span>&lt;/script&gt;</span>
+          </code></pre>
+        </div>
+      </div>
+
+      <!-- JavaScript Tab -->
+      <div class="tab-content" id="javascript-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#javascript-code">
+            Copy
+          </button>
+          <pre><code id="javascript-code" class="language-javascript">
+<span>class SupportPanel {</span>
+<span>  constructor(supportUrl = &quot;about:blank&quot;) {</span>
+<span>    this.supportUrl = supportUrl;</span>
+<span>    this.isOpen = false;</span>
+<span>    this.init();</span>
+<span>  }</span>
+
+<span>  init() {</span>
+<span>    // Create button</span>
+<span>    this.button = document.createElement(&quot;button&quot;);</span>
+<span>    this.button.className = &quot;support-button&quot;;</span>
+<span>    this.button.innerHTML = `</span>
+<span>            &lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;&gt;</span>
+<span>                &lt;path d=&quot;M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z&quot;/&gt;</span>
+<span>            &lt;/svg&gt;</span>
+<span>            &lt;span&gt;Support&lt;/span&gt;</span>
+<span>        `;</span>
+
+<span>    // Create panel elements</span>
+<span>    const panelHtml = `</span>
+<span>            &lt;div class=&quot;overlay&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt;</span>
+<span>            &lt;div class=&quot;panel-container&quot; style=&quot;display: none;&quot;&gt;</span>
+<span>                &lt;div class=&quot;panel&quot;&gt;</span>
+<span>                    &lt;div class=&quot;panel-header&quot;&gt;</span>
+<span>                        &lt;h2 class=&quot;panel-title&quot;&gt;Customer Support&lt;/h2&gt;</span>
+<span>                        &lt;button class=&quot;close-button&quot;&gt;</span>
+<span>                            &lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;&gt;</span>
+<span>                                &lt;path d=&quot;M18 6L6 18M6 6l12 12&quot;/&gt;</span>
+<span>                            &lt;/svg&gt;</span>
+<span>                        &lt;/button&gt;</span>
+<span>                    &lt;/div&gt;</span>
+<span>                    &lt;div class=&quot;iframe-container&quot;&gt;</span>
+<span>                        &lt;iframe src=&quot;${this.supportUrl}&quot; class=&quot;support-iframe&quot; title=&quot;Customer Support Chat&quot;&gt;&lt;/iframe&gt;</span>
+<span>                    &lt;/div&gt;</span>
+<span>                &lt;/div&gt;</span>
+<span>            &lt;/div&gt;</span>
+<span>        `;</span>
+
+<span>    // Create container and add elements</span>
+<span>    this.container = document.createElement(&quot;div&quot;);</span>
+<span>    this.container.style.pointerEvents = &quot;none&quot;; // Prevent container from capturing clicks</span>
+<span>    this.container.innerHTML = panelHtml;</span>
+
+<span>    // Add elements to document</span>
+<span>    document.body.appendChild(this.button);</span>
+<span>    document.body.appendChild(this.container);</span>
+
+<span>    // Get references to elements</span>
+<span>    this.overlay = this.container.querySelector(&quot;.overlay&quot;);</span>
+<span>    this.panelContainer = this.container.querySelector(&quot;.panel-container&quot;);</span>
+<span>    this.panel = this.container.querySelector(&quot;.panel&quot;);</span>
+<span>    this.closeButton = this.container.querySelector(&quot;.close-button&quot;);</span>
+
+<span>    // Enable pointer events only for interactive elements</span>
+<span>    this.overlay.style.pointerEvents = &quot;auto&quot;;</span>
+<span>    this.panel.style.pointerEvents = &quot;auto&quot;;</span>
+<span>    this.button.style.pointerEvents = &quot;auto&quot;;</span>
+
+<span>    // Add event listeners</span>
+<span>    this.button.addEventListener(&quot;click&quot;, (e) =&gt; {</span>
+<span>      e.stopPropagation();</span>
+<span>      this.toggle(true);</span>
+<span>    });</span>
+
+<span>    this.closeButton.addEventListener(&quot;click&quot;, (e) =&gt; {</span>
+<span>      e.stopPropagation();</span>
+<span>      this.toggle(false);</span>
+<span>    });</span>
+
+<span>    this.overlay.addEventListener(&quot;click&quot;, (e) =&gt; {</span>
+<span>      e.stopPropagation();</span>
+<span>      this.toggle(false);</span>
+<span>    });</span>
+
+<span>    // Prevent clicks within panel from closing it</span>
+<span>    this.panel.addEventListener(&quot;click&quot;, (e) =&gt; {</span>
+<span>      e.stopPropagation();</span>
+<span>    });</span>
+<span>  }</span>
+
+<span>  toggle(forceState = null) {</span>
+<span>    this.isOpen = forceState !== null ? forceState : !this.isOpen;</span>
+
+<span>    if (this.isOpen) {</span>
+<span>      this.overlay.style.display = &quot;block&quot;;</span>
+<span>      this.panelContainer.style.display = &quot;flex&quot;;</span>
+<span>      // Small delay to ensure display change happens before animations</span>
+<span>      requestAnimationFrame(() =&gt; {</span>
+<span>        this.overlay.classList.add(&quot;show&quot;);</span>
+<span>        this.panelContainer.classList.add(&quot;show&quot;);</span>
+<span>        this.panel.classList.add(&quot;active&quot;);</span>
+<span>      });</span>
+<span>    } else {</span>
+<span>      this.overlay.classList.remove(&quot;show&quot;);</span>
+<span>      this.panelContainer.classList.remove(&quot;show&quot;);</span>
+<span>      this.panel.classList.remove(&quot;active&quot;);</span>
+<span>      // Wait for animations to finish before hiding elements</span>
+<span>      setTimeout(() =&gt; {</span>
+<span>        if (!this.isOpen) {</span>
+<span>          // Check again in case state changed during timeout</span>
+<span>          this.overlay.style.display = &quot;none&quot;;</span>
+<span>          this.panelContainer.style.display = &quot;none&quot;;</span>
+<span>        }</span>
+<span>      }, 300); // Match this with your CSS transition duration</span>
+<span>    }</span>
+<span>  }</span>
+<span>}</span>
+</code></pre>
+        </div>
+      </div>
+
+      <!-- CSS Tab -->
+      <div class="tab-content" id="css-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#css-code">
+            Copy
+          </button>
+          <pre><code id="css-code" class="language-css">
+<span>/*===========================================================================</span>
+<span>  TEMPLATE/CENTERED SUPPORT MODAL STYLES</span>
+<span>===========================================================================*/</span>
+
+<span>:root {</span>
+<span>    --support-button-color: #9183CA; /* TODO: Update this value to match your brand's primary accent color for the support button */</span>
+<span>    --support-button-color-hover: #D5D0E5; /* TODO: Update this value to match your brand's secondary color for button hover states */</span>
+<span>    --avatar-modal-header-color: #9183CA; /* TODO: Update this value to match your brand's color for the modal header */</span>
+<span>    --bubble-activeCall-icon-color: #9183CA; /* TODO: Update this value to control the color of icons in the modal */</span>
+<span>    --headerFont: 'Montserrat', Arial, sans-serif; /* TODO: Update this value to match your brand's font family for consistent typography */</span>
+<span>    --support-button-text-color: white; /* TODO: Update this value to control the text color on your support button for better contrast */</span>
+<span>}</span>
+
+<span>.support-button {</span>
+<span>    position: fixed;</span>
+<span>    bottom: 24px;</span>
+<span>    right: 24px;</span>
+<span>    display: flex;</span>
+<span>    align-items: center;</span>
+<span>    gap: 8px;</span>
+<span>    background-color: var(--support-button-color);</span>
+<span>    color: var(--support-button-text-color);</span>
+<span>    padding: 8px 16px;</span>
+<span>    border-radius: 9999px;</span>
+<span>    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);</span>
+<span>    cursor: pointer;</span>
+<span>    border: none;</span>
+<span>    transition: background-color 0.2s;</span>
+<span>    z-index: 50;</span>
+<span>}</span>
+
+<span>.support-button:hover {</span>
+<span>    background-color: var(--support-button-color-hover);</span>
+<span>}</span>
+
+<span>.overlay {</span>
+<span>    position: fixed;</span>
+<span>    inset: 0;</span>
+<span>    background-color: rgba(0, 0, 0, 0.5);</span>
+<span>    z-index: 50;</span>
+<span>    opacity: 0;</span>
+<span>    transition: opacity 0.3s;</span>
+<span>}</span>
+
+<span>.panel-container {</span>
+<span>    position: fixed;</span>
+<span>    inset: 0;</span>
+<span>    display: flex;</span>
+<span>    align-items: center;</span>
+<span>    justify-content: center;</span>
+<span>    z-index: 51;</span>
+<span>    visibility: hidden;</span>
+<span>}</span>
+
+<span>.panel {</span>
+<span>    background: var(--avatar-modal-header-color);</span>
+<span>    width: 100%;</span>
+<span>    max-width: 672px;</span>
+<span>    height: 60vh;</span>
+<span>    border-radius: 12px;</span>
+<span>    transform: scale(0.95);</span>
+<span>    opacity: 0;</span>
+<span>    transition: transform 0.3s, opacity 0.3s;</span>
+<span>}</span>
+
+<span>.panel.active {</span>
+<span>    transform: scale(1);</span>
+<span>    opacity: 1;</span>
+<span>}</span>
+
+<span>.panel-header {</span>
+<span>    display: flex;</span>
+<span>    align-items: center;</span>
+<span>    justify-content: space-between;</span>
+<span>    padding: 16px;</span>
+<span>    border-bottom: 1px solid var(--avatar-modal-header-color);</span>
+<span>}</span>
+
+<span>.panel-title {</span>
+<span>    font-size: 18px;</span>
+<span>    font-weight: 600;</span>
+<span>    margin: 0;</span>
+<span>}</span>
+
+<span>.close-button {</span>
+<span>    padding: 8px;</span>
+<span>    border-radius: "100%";</span>
+<span>    border: none;</span>
+<span>    background: transparent;</span>
+<span>    cursor: pointer;</span>
+<span>    transition: background-color 0.2s;</span>
+<span>}</span>
+
+<span>.close-button:hover {</span>
+<span>    color: var(--support-button-color-hover);</span>
+<span>}</span>
+
+<span>.iframe-container {</span>
+<span>    width: 100%;</span>
+<span>    height: calc(100% - 64px);</span>
+<span>    border-radius: 12px ;</span>
+<span>}</span>
+
+<span>.support-iframe {</span>
+<span>    width: 100%;</span>
+<span>    height: 100%;</span>
+<span>    border: none;</span>
+<span>    border-radius: 0 0 8px 8px;</span>
+<span>}</span>
+
+<span>/* Show elements when active */</span>
+<span>.show {</span>
+<span>    visibility: visible;</span>
+<span>}</span>
+
+<span>.overlay.show {</span>
+<span>    opacity: 1;</span>
+<span>}</span>
+</code></pre>
+        </div>
+      </div>
+
+      <!-- Add more tab content divs as needed -->
+    </div>
+
+    <!-- Include Prism JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <!-- Include additional Prism language support as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <!-- Include Clipboard.js for copy functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Custom JavaScript with iframe support -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Tab switching functionality
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            // Remove active class from all tabs
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            tabContents.forEach((content) =>
+              content.classList.remove("active")
+            );
+
+            // Add active class to clicked tab
+            button.classList.add("active");
+            const tabId = `${button.dataset.tab}-tab`;
+            document.getElementById(tabId).classList.add("active");
+
+            // Notify parent page about tab change (optional)
+            if (window.parent !== window) {
+              window.parent.postMessage(
+                {
+                  type: "tabChange",
+                  tab: button.dataset.tab,
+                },
+                "*"
+              );
+            }
+          });
+        });
+
+        // Initialize Clipboard.js
+        const clipboard = new ClipboardJS(".copy-button");
+
+        clipboard.on("success", function (e) {
+          const button = e.trigger;
+          const originalText = button.textContent;
+
+          // Change button text to indicate success
+          button.textContent = "Copied!";
+
+          // Reset button text after 2 seconds
+          setTimeout(function () {
+            button.textContent = originalText;
+          }, 2000);
+
+          e.clearSelection();
+
+          // Notify parent page about copy (optional)
+          if (window.parent !== window) {
+            window.parent.postMessage(
+              {
+                type: "codeCopied",
+                content: e.text,
+              },
+              "*"
+            );
+          }
+        });
+
+        clipboard.on("error", function (e) {
+          const button = e.trigger;
+          button.textContent = "Failed!";
+
+          setTimeout(function () {
+            button.textContent = "Copy";
+          }, 2000);
+        });
+
+        // Listen for messages from parent page
+        window.addEventListener("message", function (event) {
+          // Check if message is from parent
+          if (event.source === window.parent) {
+            const data = event.data;
+
+            // Example: Update code content
+            if (data.type === "updateCode" && data.language && data.code) {
+              const codeId = `${data.language}-code`;
+              const codeElement = document.getElementById(codeId);
+
+              if (codeElement) {
+                codeElement.textContent = data.code;
+                Prism.highlightElement(codeElement);
+              }
+            }
+
+            // Example: Switch tab
+            if (data.type === "switchTab" && data.tab) {
+              const tabButton = document.querySelector(
+                `.tab-button[data-tab="${data.tab}"]`
+              );
+              if (tabButton) {
+                tabButton.click();
+              }
+            }
+          }
+        });
+
+        // Notify parent that iframe is ready
+        if (window.parent !== window) {
+          window.parent.postMessage(
+            {
+              type: "iframeReady",
+            },
+            "*"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
