@@ -6,6 +6,7 @@
 .code-snippet-frame {
     position: relative;  /* Changed from absolute to relative */
     margin-top: 20px;    /* Added margin at the top */
+    margin-bottom: 50px; /* Added margin at the bottom */
     width: 90%;          /* Adjusted width */
     max-width: 1000px;
     height: 60vh;        /* Set to percentage of viewport height */
