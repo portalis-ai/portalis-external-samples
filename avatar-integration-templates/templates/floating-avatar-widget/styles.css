@@ -54,10 +54,10 @@ body {
 
 /* Variables */
 :root {
-    --bubbleringcolor: #9183CA; /* UPDATE RING COLOR HERE*/
-    --bubble-activeCall-interior-color: #D5D0E5; /* UPDATE RING COLOR HERE*/
-    --bubble-activeCall-icon-color: #9183CA; /* UPDATE ICON COLOR HERE*/
-    --headerFont: 'Montserrat', Arial, sans-serif; /* UPDATE FONT HERE */
+    --bubbleringcolor: #9183CA; /* TODO: Update this value to match your brand's primary accent color for the widget border */
+    --bubble-activeCall-interior-color: #D5D0E5; /* TODO: Update this value to match your brand's secondary color for hover states */
+    --bubble-activeCall-icon-color: #9183CA; /* TODO: Update this value to control the color of the X icon when the widget is open */
+    --headerFont: 'Montserrat', Arial, sans-serif; /* TODO: Update this value to match your brand's font family */
 }
 
 /* Widget container */
