@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Snippet Template</title>
+
+    <!-- Include Prism CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+    />
+
+    <!-- Inline CSS for iframe usage -->
+    <style>
+      :root {
+        --color-light: #d5d0e5 !important;
+        --color-mid: #9183ca !important; /* Example color value */
+        --color-white: #ffffff !important;
+        --color-dark-purple: #5b4b94 !important;
+        --color-code-bg: #000000 !important;
+        --selection-color: rgb(17, 17, 17) !important;
+        --selection-bg: #d5d0e5 !important;
+      }
+
+      ::selection {
+        color: var(--selection-color) !important;
+        background: var(--selection-bg) !important;
+      }
+
+      body.code-snippet-body {
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.5 !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        background-color: var(--color-code-bg) !important;
+      }
+
+      .code-tabs {
+        height: 100vh !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        border: none !important;
+      }
+
+      .code-tabs .tab-buttons {
+        display: flex !important;
+        background-color: var(--color-light) !important;
+        border-bottom: 2px solid var(--color-dark-purple) !important;
+        position: relative !important;
+        z-index: 100 !important;
+      }
+
+      .code-tabs .tab-button {
+        padding: 12px 20px !important;
+        border: none !important;
+        background: transparent !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        border-bottom: 2px solid transparent !important;
+      }
+
+      .code-tabs .tab-button:hover {
+        color: var(--color-white) !important;
+        background-color: rgba(145, 131, 202, 0.2) !important;
+      }
+
+      .code-tabs .tab-button.active {
+        color: var(--color-white) !important;
+        border-bottom-color: var(--color-code-bg) !important;
+        background-color: var(--color-code-bg) !important;
+      }
+
+      .code-tabs .tab-content {
+        display: none !important;
+        position: relative !important;
+        height: calc(100vh - 45px) !important; /* Adjust based on tab height */
+      }
+
+      .code-tabs .tab-content.active {
+        display: block !important;
+      }
+
+      /* Prism code container styling */
+      .code-tabs .code-container {
+        position: relative !important;
+        height: 100% !important;
+      }
+
+      /* Copy button styling */
+      .code-tabs .copy-button {
+        position: absolute !important;
+        top: 5px !important;
+        right: 5px !important;
+        padding: 6px 12px !important;
+        background-color: var(--color-dark-purple) !important;
+        color: var(--color-white) !important;
+        border: none !important;
+        border-radius: 4px !important;
+        font-size: 12px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        z-index: 10 !important;
+        opacity: 0.9 !important;
+      }
+
+      .code-tabs .copy-button:hover {
+        background-color: var(--color-mid) !important;
+        opacity: 1 !important;
+      }
+
+      .code-tabs .copy-button.copied {
+        background-color: var(--color-mid) !important;
+      }
+
+      .code-tabs pre[class*="language-"] {
+        margin: 0 !important;
+        border-radius: 0 !important;
+        background-color: var(--color-code-bg) !important;
+        height: 100% !important;
+        overflow: auto !important;
+      }
+
+      /* Custom Prism.js Syntax Highlighting Theme */
+      .code-tabs code[class*="language-"],
+      .code-tabs pre[class*="language-"] {
+        color: var(--color-light) !important;
+        background: none !important;
+        text-shadow: 0 1px rgba(0, 0, 0, 0.3) !important;
+        font-family: "SFMono-Regular", Consolas, Monaco, "Andale Mono",
+          "Ubuntu Mono", monospace !important;
+        font-size: 14px !important;
+        text-align: left !important;
+        white-space: pre !important;
+        word-spacing: normal !important;
+        word-break: normal !important;
+        word-wrap: normal !important;
+        line-height: 1.5 !important;
+        tab-size: 4 !important;
+        hyphens: none !important;
+      }
+
+      /* Token colors */
+      .code-tabs .token.comment,
+      .code-tabs .token.prolog,
+      .code-tabs .token.doctype,
+      .code-tabs .token.cdata {
+        color: #6a737d !important;
+      }
+
+      .code-tabs .token.punctuation {
+        color: var(--color-light) !important;
+      }
+
+      .code-tabs .token.property,
+      .code-tabs .token.tag,
+      .code-tabs .token.boolean,
+      .code-tabs .token.number,
+      .code-tabs .token.constant,
+      .code-tabs .token.symbol,
+      .code-tabs .token.deleted {
+        color: var(--color-mid) !important;
+      }
+
+      .code-tabs .token.selector,
+      .code-tabs .token.attr-name,
+      .code-tabs .token.string,
+      .code-tabs .token.char,
+      .code-tabs .token.builtin,
+      .code-tabs .token.inserted {
+        color: #a5d6a7 !important;
+      }
+
+      .code-tabs .token.operator,
+      .code-tabs .token.entity,
+      .code-tabs .token.url,
+      .code-tabs .language-css .token.string,
+      .code-tabs .style .token.string {
+        color: var(--color-white) !important;
+      }
+
+      .code-tabs .token.atrule,
+      .code-tabs .token.attr-value,
+      .code-tabs .token.keyword {
+        color: var(--color-mid) !important;
+      }
+
+      .code-tabs .token.function,
+      .code-tabs .token.class-name {
+        color: #ddbdf2 !important;
+      }
+
+      .code-tabs .token.regex,
+      .code-tabs .token.important,
+      .code-tabs .token.variable {
+        color: #ee9d28 !important;
+      }
+    </style>
+  </head>
+  <body class="code-snippet-body">
+    <div class="code-tabs">
+      <div class="tab-buttons">
+        <!-- Add tab buttons here - example: -->
+        <button class="tab-button active" data-tab="html">HTML</button>
+        <button class="tab-button" data-tab="javascript">JavaScript</button>
+        <button class="tab-button" data-tab="css">CSS</button>
+        <!-- Add more tabs as needed -->
+      </div>
+
+      <!-- HTML Tab -->
+      <div class="tab-content active" id="html-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#html-code">
+            Copy
+          </button>
+          <pre><code id="html-code" class="language-html">    <span>&lt;!-- ===================== AVATAR WIDGET SECTION ===================== --&gt;</span>
+  <span>&lt;!-- Start of Portalis AI Chat Widget --&gt;</span>
+  <span>&lt;div</span> <span>id=</span><span>&quot;portalis-widget&quot;</span><span>&gt;</span>
+    <span>&lt;!-- Floating circle button --&gt;</span>
+    <span>&lt;div</span> <span>class=</span><span>&quot;floating-button&quot;</span><span>&gt;&lt;/div&gt;</span>
+
+    <span>&lt;!-- Modal overlay --&gt;</span>
+    <span>&lt;div</span> <span>class=</span><span>&quot;modal-overlay&quot;</span><span>&gt;</span>
+      <span>&lt;div</span> <span>class=</span><span>&quot;modal-content&quot;</span><span>&gt;</span>
+        <span>&lt;div</span> <span>class=</span><span>&quot;modal-header&quot;</span><span>&gt;</span>
+          <span>&lt;span&gt;</span>Jess - Your PortalisAI Assistant!<span>&lt;/span&gt;</span>
+          <span>&lt;button</span> <span>class=</span><span>&quot;close-button&quot;</span><span>&gt;&lt;/button&gt;</span>
+        <span>&lt;/div&gt;</span>
+        <span>&lt;div</span> <span>class=</span><span>&quot;iframe-container&quot;</span><span>&gt;</span>
+          <span>&lt;iframe</span>
+            <span>src=</span><span>&quot;https://chat.portalis.ai/guest?orgId=cd09871f-0a8d-49db-8829-4efc8fed21d0&amp;slotId=95e1fd1e-e7e0-4ef3-82d5-61c35bfe3133&quot;</span> <span>&lt;!-- TODO: Replace with your Portalis AI URL from your dashboard --&gt;</span>
+            <span>width=</span><span>&quot;100%&quot;</span>
+            <span>height=</span><span>&quot;100%&quot;</span>
+            <span>frameborder=</span><span>&quot;0&quot;</span>
+            <span>scrolling=</span><span>&quot;no&quot;</span>
+            <span>allow=</span><span>&quot;camera;microphone;fullscreen;clipboard-write&quot;</span>
+            <span>referrerpolicy=</span><span>&quot;origin&quot;</span>
+            <span>id=</span><span>&quot;chat-iframe&quot;</span>
+          <span>&gt;</span>
+          <span>&lt;/iframe&gt;</span>
+        <span>&lt;/div&gt;</span>
+      <span>&lt;/div&gt;</span>
+    <span>&lt;/div&gt;</span></code></pre>
+        </div>
+      </div>
+
+      <!-- JavaScript Tab -->
+      <div class="tab-content" id="javascript-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#javascript-code">
+            Copy
+          </button>
+          <pre><code id="javascript-code" class="language-javascript">
+/**
+ * ===================================================
+ * PORTALIS AI AVATAR WIDGET SCRIPT
+ * ===================================================
+ * This script handles the behavior and interactions
+ * for the slide-in assistant avatar widget.
+ */
+
+(function () {
+  // ==================== Configuration ====================
+  const avatarPreviewURL &#61;
+    "https://www.dropbox.com/scl/fi/7z3y6fxma23uoifzy13ak/Jess-Preview.mp4?rlkey=0h20xim0qaifrqlirpx1kwxcy&st=yci8yvda&raw=1"; // TODO: Replace with your avatar preview video URL
+  const activeCallIcon = `&lt;i class="bi bi-x" id="activeCallIcon"&gt;&lt;/i&gt;`;
+
+  // ==================== DOM Elements ====================
+  const widget = document.getElementById("portalis-widget");
+  const floatingButton = widget.querySelector(".floating-button");
+  const modalOverlay = widget.querySelector(".modal-overlay");
+  const closeButton = widget.querySelector(".close-button");
+  const tooltip = widget.querySelector(".tooltip");
+  const modalContent = modalOverlay.querySelector(".modal-content");
+
+  // ==================== State ====================
+  let isMobile = window.innerWidth < 768;
+
+  // ==================== Initialization ====================
+  function init() {
+    setAvatarPreview();
+    setupEventListeners();
+    if (!isMobile) {
+      setupTooltip();
+    }
+  }
+
+  function setupEventListeners() {
+    window.addEventListener("resize", updateLayout);
+    floatingButton.addEventListener("click", toggleModal);
+    floatingButton.addEventListener("click", toggleActiveCallOverlay);
+    closeButton.addEventListener("click", closeModal);
+    document.addEventListener("keydown", handleKeyPress);
+  }
+
+  // ==================== Core Functions ====================
+  function updateLayout() {
+    isMobile = window.innerWidth < 768;
+    // Only affect body overflow when modal is active
+    if (modalOverlay.classList.contains("active")) {
+      document.body.style.overflow = isMobile ? "hidden" : "";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }
+
+  function setAvatarPreview() {
+    floatingButton.innerHTML = `
+    &lt;video class="video-preview" autoplay loop muted playsinline&gt;
+    &lt;source src="${avatarPreviewURL}" type="video/mp4"&gt;
+    &lt;/video&gt;
+    &lt;div class="floating-button-overlay"&gt;&lt;/div&gt;`;
+  }
+
+  function toggleActiveCallOverlay() {
+    const overlay = floatingButton.querySelector(".floating-button-overlay");
+    if (!overlay) return;
+
+    overlay.innerHTML = activeCallIcon;
+    overlay.classList.toggle("active");
+  }
+
+  function hideTooltip() {
+    tooltip.style.opacity = "0";
+  }
+
+  function toggleModal() {
+    modalOverlay.classList.contains("active") ? closeModal() : openModal();
+  }
+
+  function openModal() {
+    modalOverlay.style.visibility = "visible";
+    modalOverlay.style.opacity = "0";
+
+    // Force browser reflow to ensure the transition works
+    void modalOverlay.offsetWidth;
+
+    modalOverlay.style.opacity = "1";
+    modalOverlay.classList.add("active");
+
+    hideTooltip();
+    updateLayout();
+
+    // Ensure we're not preventing interaction with the code iframe
+    // when overlay is active but not full screen (desktop mode)
+    if (!isMobile) {
+      modalOverlay.style.pointerEvents = "auto";
+    }
+  }
+
+  function closeModal(e) {
+    if (e) e.stopPropagation();
+
+    modalContent.style.opacity = "0";
+    modalOverlay.style.opacity = "0";
+
+    setTimeout(() => {
+      modalOverlay.classList.remove("active");
+      modalOverlay.style.visibility = "hidden";
+      modalContent.style.opacity = "1";
+      document.body.style.overflow = "";
+    }, 200);
+  }
+
+  // ==================== Event Handlers ====================
+  function handleKeyPress(e) {
+    if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
+      closeModal();
+    }
+  }
+
+  function setupTooltip() {
+    function positionTooltip() {
+      const rect = floatingButton.getBoundingClientRect();
+      tooltip.style.left = rect.left - tooltip.offsetWidth + 100 + "px";
+      tooltip.style.top =
+        rect.top + rect.height / 2 - tooltip.offsetHeight / 2 + "px";
+    }
+
+    floatingButton.addEventListener("mouseover", () => {
+      if (!modalOverlay.classList.contains("active")) {
+        positionTooltip();
+        tooltip.style.opacity = "1";
+      }
+    });
+
+    floatingButton.addEventListener("mouseout", () => {
+      tooltip.style.opacity = "0";
+    });
+  }
+
+  // ==================== Initialize ====================
+  init();
+})();
+
+/**
+ * ===================================================
+ * END OF PORTALIS AI AVATAR WIDGET SCRIPT
+ * ===================================================
+ */</code></pre>
+        </div>
+      </div>
+
+      <!-- CSS Tab -->
+      <div class="tab-content" id="css-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#css-code">
+            Copy
+          </button>
+          <pre><code id="css-code" class="language-css">/*===========================================================================
+  TEMPLATE/AVATAR WIDGET STYLES
+===========================================================================*/
+
+/* Variables */
+:root {
+    --bubbleringcolor: #9183CA; /* TODO: UPDATE RING COLOR HERE to match your brand */
+    --bubble-activeCall-interior-color: #D5D0E5; /* TODO: UPDATE INTERIOR COLOR HERE to match your brand */
+    --bubble-activeCall-icon-color: #9183CA; /* TODO: UPDATE ICON COLOR HERE to match your brand */
+    --headerFont: 'Montserrat', Arial, sans-serif; /* TODO: UPDATE FONT HERE to match your brand */
+    --selection-color: rgb(17, 17, 17) !important; /* TODO: UPDATE SELECTION COLOR HERE to match your brand */
+    --selection-bg: #d5d0e5 !important; /* TODO: UPDATE SELECTION BG HERE to match your brand */
+}
+
+::selection {
+  color: var(--selection-color) !important;
+  background: var(--selection-bg) !important;
+}
+
+/* Widget container */
+#portalis-widget {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999999;
+    width: 0;
+    height: 0;
+}
+
+/* Floating Button */
+#portalis-widget .floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px; /* Default size for mobile */
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bubbleringcolor);
+    overflow: hidden;
+    padding: 0;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+#portalis-widget .floating-button:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    background: var(--bubble-activeCall-interior-color);
+}
+
+/* Button overlay */
+#portalis-widget .floating-button .floating-button-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bubble-activeCall-interior-color);
+    border-radius: 50%;
+    display: none;
+    z-index: 2;
+    pointer-events: none;
+}
+  
+#portalis-widget .floating-button .floating-button-overlay.active {
+    display: block;
+    pointer-events: auto;
+}
+
+/* Video preview */
+#portalis-widget .video-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Modal overlay */
+#portalis-widget .modal-overlay {
+    position: fixed;
+    pointer-events: auto;
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    /* Mobile-first: full screen */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#portalis-widget .modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+/* Modal content */
+#portalis-widget .modal-content {
+    background: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#portalis-widget .modal-overlay.active .modal-content {
+    opacity: 1;
+}
+
+/* Modal header */
+#portalis-widget .modal-header {
+    padding: 15px 20px;
+    background: var(--bubbleringcolor);
+    color: white;
+    font-family: var(--headerFont);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+/* Close button */
+#portalis-widget .close-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Avatar iFrame container */
+#portalis-widget .iframe-container {
+    flex: 1;
+    overflow: hidden;
+}
+
+#portalis-widget .modal-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Tooltip */
+#portalis-widget .tooltip {
+    position: absolute;
+    bottom: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 1002;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 1s ease;
+    visibility: hidden;
+}
+
+/* Active call icon */
+#activeCallIcon {
+    color: var(--bubble-activeCall-icon-color);
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Template responsive styles */
+@media (min-width: 768px) {
+    /* Avatar widget responsive styles */
+    #portalis-widget .floating-button {
+        width: 80px;
+        height: 80px;
+    }
+
+    #portalis-widget .modal-overlay {
+        top: auto;
+        left: auto;
+        bottom: 130px;
+        right: 20px;
+        width: 400px;
+        height: 600px;
+        background: transparent;
+    }
+
+    #portalis-widget .modal-content {
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    #portalis-widget .tooltip {
+        visibility: visible;
+        opacity: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    #portalis-widget .floating-button {
+        width: 100px;
+        height: 100px;
+    }
+
+    #portalis-widget .modal-overlay {
+        width: 450px;
+        height: 700px;
+    }
+}
+
+@media (max-width: 767px) {
+    .template-title {
+        font-size: 36px;
+        margin-top: 20px;
+    }
+}
+
+@media (max-height: 700px) and (min-width: 768px) {
+    #portalis-widget .modal-overlay {
+        height: 80vh;
+        bottom: 120px;
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include Prism JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <!-- Include additional Prism language support as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+
+    <!-- Include Clipboard.js for copy functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Custom JavaScript with iframe support -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Tab switching functionality
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            // Remove active class from all tabs
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            tabContents.forEach((content) =>
+              content.classList.remove("active")
+            );
+
+            // Add active class to clicked tab
+            button.classList.add("active");
+            const tabId = `${button.dataset.tab}-tab`;
+            document.getElementById(tabId).classList.add("active");
+
+            // Notify parent page about tab change (optional)
+            if (window.parent !== window) {
+              window.parent.postMessage(
+                {
+                  type: "tabChange",
+                  tab: button.dataset.tab,
+                },
+                "*"
+              );
+            }
+          });
+        });
+
+        // Initialize Clipboard.js
+        const clipboard = new ClipboardJS(".copy-button");
+
+        clipboard.on("success", function (e) {
+          const button = e.trigger;
+          const originalText = button.textContent;
+
+          // Change button text to indicate success
+          button.textContent = "Copied!";
+
+          // Reset button text after 2 seconds
+          setTimeout(function () {
+            button.textContent = originalText;
+          }, 2000);
+
+          e.clearSelection();
+
+          // Notify parent page about copy (optional)
+          if (window.parent !== window) {
+            window.parent.postMessage(
+              {
+                type: "codeCopied",
+                content: e.text,
+              },
+              "*"
+            );
+          }
+        });
+
+        clipboard.on("error", function (e) {
+          const button = e.trigger;
+          button.textContent = "Failed!";
+
+          setTimeout(function () {
+            button.textContent = "Copy";
+          }, 2000);
+        });
+
+        // Listen for messages from parent page
+        window.addEventListener("message", function (event) {
+          // Check if message is from parent
+          if (event.source === window.parent) {
+            const data = event.data;
+
+            // Example: Update code content
+            if (data.type === "updateCode" && data.language && data.code) {
+              const codeId = `${data.language}-code`;
+              const codeElement = document.getElementById(codeId);
+
+              if (codeElement) {
+                codeElement.textContent = data.code;
+                Prism.highlightElement(codeElement);
+              }
+            }
+
+            // Example: Switch tab
+            if (data.type === "switchTab" && data.tab) {
+              const tabButton = document.querySelector(
+                `.tab-button[data-tab="${data.tab}"]`
+              );
+              if (tabButton) {
+                tabButton.click();
+              }
+            }
+          }
+        });
+
+        // Notify parent that iframe is ready
+        if (window.parent !== window) {
+          window.parent.postMessage(
+            {
+              type: "iframeReady",
+            },
+            "*"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

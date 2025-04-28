@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Snippet Template</title>
+
+    <!-- Include Prism CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+    />
+    <link rel="stylesheet" href="snippet.css" />
+  </head>
+  <body class="code-snippet-body">
+    <div class="code-tabs">
+      <div class="tab-buttons">
+        <!-- Add tab buttons here - example: -->
+        <button class="tab-button active" data-tab="javascript">
+          JavaScript
+        </button>
+        <button class="tab-button" data-tab="python">Python</button>
+        <!-- Add more tabs as needed -->
+      </div>
+
+      <!-- JavaScript Tab -->
+      <div class="tab-content active" id="javascript-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#javascript-code">
+            Copy
+          </button>
+          <pre><code id="javascript-code" class="language-javascript">
+// Your JavaScript code here
+console.log("Hello world!");
+          </code></pre>
+        </div>
+      </div>
+
+      <!-- Python Tab -->
+      <div class="tab-content" id="python-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#python-code">
+            Copy
+          </button>
+          <pre><code id="python-code" class="language-python">
+# Your Python code here
+print("Hello world!")
+          </code></pre>
+        </div>
+      </div>
+
+      <!-- Add more tab content divs as needed -->
+    </div>
+
+    <!-- Include Prism JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <!-- Include additional Prism language support as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <!-- Include Clipboard.js for copy functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Custom JavaScript with iframe support -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Tab switching functionality
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            // Remove active class from all tabs
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            tabContents.forEach((content) =>
+              content.classList.remove("active")
+            );
+
+            // Add active class to clicked tab
+            button.classList.add("active");
+            const tabId = `${button.dataset.tab}-tab`;
+            document.getElementById(tabId).classList.add("active");
+
+            // Notify parent page about tab change (optional)
+            if (window.parent !== window) {
+              window.parent.postMessage(
+                {
+                  type: "tabChange",
+                  tab: button.dataset.tab,
+                },
+                "*"
+              );
+            }
+          });
+        });
+
+        // Initialize Clipboard.js
+        const clipboard = new ClipboardJS(".copy-button");
+
+        clipboard.on("success", function (e) {
+          const button = e.trigger;
+          const originalText = button.textContent;
+
+          // Change button text to indicate success
+          button.textContent = "Copied!";
+
+          // Reset button text after 2 seconds
+          setTimeout(function () {
+            button.textContent = originalText;
+          }, 2000);
+
+          e.clearSelection();
+
+          // Notify parent page about copy (optional)
+          if (window.parent !== window) {
+            window.parent.postMessage(
+              {
+                type: "codeCopied",
+                content: e.text,
+              },
+              "*"
+            );
+          }
+        });
+
+        clipboard.on("error", function (e) {
+          const button = e.trigger;
+          button.textContent = "Failed!";
+
+          setTimeout(function () {
+            button.textContent = "Copy";
+          }, 2000);
+        });
+
+        // Listen for messages from parent page
+        window.addEventListener("message", function (event) {
+          // Check if message is from parent
+          if (event.source === window.parent) {
+            const data = event.data;
+
+            // Example: Update code content
+            if (data.type === "updateCode" && data.language && data.code) {
+              const codeId = `${data.language}-code`;
+              const codeElement = document.getElementById(codeId);
+
+              if (codeElement) {
+                codeElement.textContent = data.code;
+                Prism.highlightElement(codeElement);
+              }
+            }
+
+            // Example: Switch tab
+            if (data.type === "switchTab" && data.tab) {
+              const tabButton = document.querySelector(
+                `.tab-button[data-tab="${data.tab}"]`
+              );
+              if (tabButton) {
+                tabButton.click();
+              }
+            }
+          }
+        });
+
+        // Notify parent that iframe is ready
+        if (window.parent !== window) {
+          window.parent.postMessage(
+            {
+              type: "iframeReady",
+            },
+            "*"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Floating Avatar Widget</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <body>
+    <!-- Page Title -->
+    <h1 class="template-title">Floating Avatar Widget</h1>
+    <div class="content-container">
+      <h2 class="subtitles">Instructions</h2>
+      <ul class="instructions-list">
+        <li><strong>HTML</strong></li>
+        <ul>
+          <li>
+            <strong>iframe src</strong> - Replace with your iframe source from
+            your Portalis AI dashboard
+          </li>
+        </ul>
+        <li><strong>JavaScript</strong></li>
+        <ul>
+          <li>
+            <strong>avatarPreviewURL</strong> - Replace with your avatar preview
+            video URL from your library
+          </li>
+        </ul>
+        <li><strong>CSS</strong></li>
+        <ul>
+          <li>
+            <strong>--bubbleringcolor</strong> - Update this value to match your
+            brand's primary accent color for the widget border
+          </li>
+          <li>
+            <strong>--bubble-activeCall-interior-color</strong> - Update this
+            value to match your brand's secondary color for hover states
+          </li>
+          <li>
+            <strong>--bubble-activeCall-icon-color</strong> - Update this value
+            to control the color of the X icon when the widget is open
+          </li>
+          <li>
+            <strong>--headerFont</strong> - Update this value to match your
+            brand's font family
+          </li>
+
+          <li>
+            <strong>--selection-color</strong> - Update this value to control
+            the text color when highlighting code snippet
+          </li>
+          <li>
+            <strong>--selection-bg</strong> - Update this value to control the
+            background color when highlighting code snippet
+          </li>
+        </ul>
+      </ul>
+
+      <!-- ===================== CODE SNIPPET SECTION ===================== -->
+      <!-- Code snippet iframe moved outside the widget for proper interaction -->
+      <h2 class="subtitles">Code Snippet</h2>
+      <iframe
+        src="./snippet.html"
+        class="code-snippet-frame"
+        title="Code Snippet"
+        frameborder="0"
+        scrolling="auto"
+        allowtransparency="true"
+        allow="clipboard-read; clipboard-write"
+      ></iframe>
+    </div>
+
+    <!-- ===================== AVATAR WIDGET SECTION ===================== -->
+    <!-- Start of Portalis AI Chat Widget -->
+    <div id="portalis-widget">
+      <!-- Floating circle button -->
+      <div class="floating-button"></div>
+
+      <!-- Modal overlay -->
+      <div class="modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span>Jess - Your PortalisAI Assistant!</span>
+            <button class="close-button"></button>
+          </div>
+          <div class="iframe-container">
+            <!-- TODO: Replace this URL with your avatar's embed URL from your Portalis AI dashboard -->
+            <iframe
+              src="https://chat.portalis.ai/guest?orgId=cd09871f-0a8d-49db-8829-4efc8fed21d0&slotId=95e1fd1e-e7e0-4ef3-82d5-61c35bfe3133"
+              width="100%"
+              height="100%"
+              frameborder="0"
+              scrolling="no"
+              allow="camera;microphone;fullscreen;clipboard-write"
+              referrerpolicy="origin"
+              id="chat-iframe"
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tooltip -->
+      <div class="tooltip">Jess - Your PortalisAI Assistant!</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+  </body>
+</html>

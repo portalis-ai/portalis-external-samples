@@ -1,0 +1,122 @@
+/*===========================================================================
+  BASE STYLES
+===========================================================================*/
+body {
+    background-color: #1E1E1E;
+}
+
+.template-title {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    font-family: var(--headerFont);
+    font-size: 50px;
+    color: var(--header-color);
+    text-align: center;
+    position: relative;
+    z-index: 150; /* Ensure title appears above the iframe */
+}
+
+.instructions-list {
+    color: var(--instructions-text-color);
+    font-family: var(--headerFont);
+    font-size: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
+    text-align: left;
+}
+.content-container .subtitles {
+    color: var(--instructions-subtitle-color);
+    font-family: var(--headerFont);
+    font-size: 28px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+}
+
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px; /* Increased space between items */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+
+
+/* Variables */
+:root {
+    --header-color: #9183CA; /* TODO: Update this value to match your brand's primary accent color for the header */
+    --instructions-subtitle-color: #9183CA; /* TODO: Update this value to match your brand's primary accent color for the widget border */
+    --instructions-text-color: #D5D0E5; /* TODO: Update this value to match your brand's secondary color for hover states */
+    --headerFont: 'Montserrat', Arial, sans-serif; /* TODO: Update this value to match your brand's font family */
+}
+
+/* Ensure the iframe stays behind the overlay */
+.code-snippet-frame {
+    position: relative;
+    width: 95%; /* Adjusted width to match centered-support-modal */
+    max-width: 1000px; /* Added max-width for consistency */
+}
+
+/* Code snippet responsive styles */
+@media (min-width: 768px) {
+    .code-snippet-frame {
+        width: 80%;
+        height: 60vh;
+    }
+}
+
+@media (max-width: 767px) {
+    .code-snippet-frame {
+        width: 95%;
+        height: 50vh;
+    }
+}
+
+@media (max-height: 700px) and (min-width: 768px) {
+    .code-snippet-frame {
+        height: 50vh;
+    }
+}
+
+/*===========================================================================
+  TEMPLATE/CENTERED SUPPORT MODAL STYLES
+===========================================================================*/
+
+:root {
+    --video-call-height: 60vh; /* TODO: Adjust this value to match the desired video call height for your layout */
+    --video-call-width: 100%; /* TODO: Adjust this value to match the desired video call width for your layout */
+    --video-call-border-color: #9183CA; /* TODO: Update this value to match your brand's primary accent color */
+    --video-call-border-width: 2px; /* TODO: Adjust this value to match the desired border thickness */
+}
+
+.video-call-container {
+    width: 85%;
+    height: 100%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px; /* Added margin to the bottom for spacing */
+}
+
+.video-call-container iframe {
+    width: var(--video-call-width); /* Updated variable name */
+    height: var(--video-call-height); /* Updated variable name */
+    border: var(--video-call-border-width) solid var(--video-call-border-color); /* Updated variable names */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+}
