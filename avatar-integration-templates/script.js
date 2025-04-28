@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
       url: "centered-support-modal",
     },
     {
-      gifPath: "",
+      gifPath: "assets/video-call.gif",
       text: "Video Call view of avatar with responsive dimensions dependent on device screen size.",
       title: "Video Call",
       url: "video-call",
