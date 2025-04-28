@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       gifPath: "",
-      text: "Default conference view of avatar with responsive dimensions dependent on device screen size.",
-      title: "Default Conference View",
-      url: "default-conference-view",
+      text: "Video Call view of avatar with responsive dimensions dependent on device screen size.",
+      title: "Video Call",
+      url: "video-call",
     },
   ];
 
