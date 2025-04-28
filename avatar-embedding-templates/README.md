@@ -1,70 +1,105 @@
-# PortalisAI Avatar Templates
+# Avatar Embedding Templates - Instructional Guide
 
-## Example Site
+This guide explains how to add new templates to the Avatar Embedding Templates project.
 
-You can view an example site showcasing the templates [here](https://samples.portalis.ai/).
+## Steps to Add a New Template
 
-## Purpose
+### 1. Create a New Folder
 
-The purpose of this repository is to provide a collection of customizable avatar templates for use with the PortalisAI platform. These templates are designed to help users create unique and personalized avatars for various applications, including social media, gaming, and virtual meetings.
+- Navigate to the `templates` folder.
+- Create a new folder following the naming syntax: `template-name-here`.
 
-## Available Templates
+### 2. Add Required Files
 
-### 1. Support Popup Template
+- Inside the new folder, create the following files:
+  - `index.html`
+  - `script.js`
+  - `styles.css`
+  - Add other files as needed.
+- Ensure to include `TODO:` comments alongside descriptions for each variable in your files. These `TODO:` comments are for clients to easily locate and edit variables when customizing the template.
 
-This template provides a support button that opens a popup panel for user assistance.
+### 3. Copy Code-Snippet-Templates
 
-![Support Popup Template](path/to/support-popup-template.gif)
+- Copy the contents of the `code-snippet-templates` folder into your new folder.
+- Add your snippet-specific stylesheet and the styling for PrismJS into the main `index.html` file.
 
-### 2. Floating Bubble Template
+### 4. Follow Snippet Instructions
 
-This template features a floating button that opens a modal with an embedded chat or video.
+- Open the `snippet.html` file in the `code-snippet-templates` folder.
+- Carefully review the comments and instructions in the file. Key steps include:
 
-![Floating Bubble Template](path/to/floating-bubble-template.gif)
+  1. **HTML Structure**:
+     - Ensure the HTML structure in your `index.html` file matches the example provided in `snippet.html`.
+     - Add `TODO:` comments for any variables or sections that clients may need to edit, such as titles, descriptions, or links.
+     - Example:
+       ```html
+       <!-- TODO: Replace with your template's title -->
+       <h1>Template Title</h1>
+       ```
+  2. **JavaScript Integration**:
+     - In your `script.js`, add `TODO:` comments for any configurable variables or logic that clients may need to modify.
+     - Example:
+       ```javascript
+       // TODO: Update the API endpoint for your template
+       const apiEndpoint = "https://example.com/api";
+       ```
+  3. **Styling**:
 
-## How to Use
+     - Use the `styles.css` file to define your template's styles.
+     - Add `TODO:` comments for any customizable styles, such as colors, fonts, or layout adjustments.
+     - Use CSS custom properties (`var(--variable-name)`) for styling. Instantiate these variables in the `:root` selector for easy customization.
+     - Example:
 
-1. Clone the repository to your local machine.
-2. Navigate to the desired template folder.
-3. Open the template files in your preferred code editor or image editing software.
-4. Customize the avatars by changing colors, adding accessories, and modifying hairstyles.
-5. Save your customized avatars and use them in your projects.
+       ```css
+       /* TODO: Define your template's custom properties */
+       :root {
+         --primary-color: #007bff; /* TODO: Update the primary color */
+         --font-size: 16px; /* TODO: Update the font size */
+       }
 
-## Converting to Single HTML File
+       .primary-button {
+         background-color: var(--primary-color);
+         font-size: var(--font-size);
+       }
+       ```
 
-To convert the modular code with separate HTML, CSS, and JS files into a single HTML file, follow these steps:
+  4. **Code Snippets**:
+     - Add code snippets to your template by following the example provided in `snippet.html`.
+     - Use the `<pre>` and `<code>` tags for syntax highlighting, and ensure PrismJS is properly integrated.
+     - Add `TODO:` comments for any snippet sections that clients may need to modify.
+  5. **Customization**:
+     - Modify the provided example code to suit your template's requirements.
+     - Ensure all client-editable sections are clearly marked with `TODO:` comments.
 
-1. Open the HTML file and add the contents of the CSS file within a `<style>` tag in the `<head>` section.
-2. Add the contents of the JS file within a `<script>` tag before the closing `</body>` tag.
+### 5. Record a GIF
+
+- Once your template is implemented, record a quick GIF of the template in action.
+- Save the GIF in the `assets` folder with a descriptive name.
+
+### 6. Update `script.js`
+
+- Open the `script.js` file in the `avatar-embedding-templates` folder.
+- Add your template details to the `templatesArr` array:
+  - `gifPath`: Path to the GIF you recorded.
+  - `text`: A brief description of the template.
+  - `title`: The title of your template.
+  - `url`: The folder name of your template.
 
 Example:
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Support Panel</title>
-    <style>
-      /* Add CSS content here */
-    </style>
-  </head>
-  <body>
-    <!-- HTML content here -->
-    <script>
-      // Add JS content here
-    </script>
-  </body>
-</html>
+```javascript
+{
+  gifPath: "assets/your-template-gif.gif",
+  text: "A brief description of your template.",
+  title: "Your Template Title",
+  url: "template-name-here",
+}
 ```
 
-## Contributions
+### 7. Test Your Template
 
-We welcome contributions from the community. If you have a new template or improvements to existing ones, please submit a pull request.
+- Open the project in a browser and verify that your template appears correctly in the list.
 
-Suggestion can also be made to our #integration-ideas in our [Portalis AI Community Discord](https://discord.gg/54f3uz99)
+---
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
+By following these steps, you can easily add new templates to the Avatar Embedding Templates project. Happy coding!
