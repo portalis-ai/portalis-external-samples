@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
       url: "floating-avatar-widget",
     },
     {
-      gifPath: "",
+      gifPath: "assets/mobile-portrait-call.gif",
       text: "Avatar window will strictly fit the screen dimensions for a mobile device. The avatar will be centered in the screen and will not be a floating button.",
       title: "Mobile Portrait Call",
       url: "mobile-portrait-call",
