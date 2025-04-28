@@ -2,7 +2,7 @@
 
 ## Example Site
 
-You can view an example site showcasing the templates [here](https://emmanuelahonle1.github.io/portalisAI-avatar-templates/).
+You can view an example site showcasing the templates [here](https://samples.portalis.ai/).
 
 ## Purpose
 
