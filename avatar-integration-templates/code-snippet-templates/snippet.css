@@ -1,19 +1,24 @@
-/*===========================================================================
-  CODE SNIPPET STYLES
+/*=========================================================================== 
+  CODE SNIPPET STYLES 
 ===========================================================================*/
 
 /* Code snippet iframe */
 .code-snippet-frame {
     position: relative;  /* Changed from absolute to relative */
     margin-top: 20px;    /* Added margin at the top */
+    margin-bottom: 50px; /* Added margin at the bottom */
+    margin-left: auto;   /* Center horizontally */
+    margin-right: auto;  /* Center horizontally */
     width: 90%;          /* Adjusted width */
     max-width: 1000px;
     height: 60vh;        /* Set to percentage of viewport height */
-    z-index: 100;
+    z-index: 0;
     border: 2px solid var(--support-button-color);
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     pointer-events: auto !important; /* Critical for allowing interaction */
+    display: block;      /* Ensure proper block display */
+    overflow: hidden;    /* Prevent overflow */
 }
 
 /* Code snippet responsive styles */

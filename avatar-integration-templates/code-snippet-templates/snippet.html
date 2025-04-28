@@ -14,14 +14,21 @@
     <!-- Inline CSS for iframe usage -->
     <style>
       :root {
-        --color-light: #d5d0e5;
-        --color-mid: #9183ca;
-        --color-white: #ffffff;
-        --color-dark-purple: #5b4b94;
-        --color-code-bg: #000000;
+        --color-light: #d5d0e5 !important;
+        --color-mid: #9183ca !important;
+        --color-white: #ffffff !important;
+        --color-dark-purple: #5b4b94 !important;
+        --color-code-bg: #000000 !important;
+        --selection-color: rgb(17, 17, 17) !important;
+        --selection-bg: #d5d0e5 !important;
       }
 
-      body {
+      ::selection {
+        color: var(--selection-color) !important;
+        background: var(--selection-bg) !important;
+      }
+
+      body.code-snippet-body {
         font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
           Roboto, "Helvetica Neue", Arial, sans-serif !important;
         margin: 0 !important;
@@ -29,6 +36,7 @@
         line-height: 1.5 !important;
         height: 100% !important;
         overflow: hidden !important;
+        background-color: var(--color-code-bg) !important;
       }
 
       .code-tabs {
@@ -38,13 +46,15 @@
         border: none !important;
       }
 
-      .tab-buttons {
+      .code-tabs .tab-buttons {
         display: flex !important;
         background-color: var(--color-light) !important;
         border-bottom: 1px solid var(--color-dark-purple) !important;
+        position: relative !important;
+        z-index: 100 !important;
       }
 
-      .tab-button {
+      .code-tabs .tab-button {
         padding: 12px 20px !important;
         border: none !important;
         background: transparent !important;
@@ -55,35 +65,35 @@
         border-bottom: 2px solid transparent !important;
       }
 
-      .tab-button:hover {
+      .code-tabs .tab-button:hover {
         color: var(--color-white) !important;
         background-color: rgba(145, 131, 202, 0.2) !important;
       }
 
-      .tab-button.active {
+      .code-tabs .tab-button.active {
         color: var(--color-white) !important;
         border-bottom-color: var(--color-mid) !important;
-        background-color: var(--color-dark-purple) !important;
+        background-color: var(--color-code-bg) !important;
       }
 
-      .tab-content {
+      .code-tabs .tab-content {
         display: none !important;
         position: relative !important;
         height: calc(100vh - 45px) !important; /* Adjust based on tab height */
       }
 
-      .tab-content.active {
+      .code-tabs .tab-content.active {
         display: block !important;
       }
 
       /* Prism code container styling */
-      .code-container {
+      .code-tabs .code-container {
         position: relative !important;
         height: 100% !important;
       }
 
       /* Copy button styling */
-      .copy-button {
+      .code-tabs .copy-button {
         position: absolute !important;
         top: 5px !important;
         right: 5px !important;
@@ -99,16 +109,16 @@
         opacity: 0.9 !important;
       }
 
-      .copy-button:hover {
+      .code-tabs .copy-button:hover {
         background-color: var(--color-mid) !important;
         opacity: 1 !important;
       }
 
-      .copy-button.copied {
+      .code-tabs .copy-button.copied {
         background-color: var(--color-mid) !important;
       }
 
-      pre[class*="language-"] {
+      .code-tabs pre[class*="language-"] {
         margin: 0 !important;
         border-radius: 0 !important;
         background-color: var(--color-code-bg) !important;
@@ -117,8 +127,8 @@
       }
 
       /* Custom Prism.js Syntax Highlighting Theme */
-      code[class*="language-"],
-      pre[class*="language-"] {
+      .code-tabs code[class*="language-"],
+      .code-tabs pre[class*="language-"] {
         color: var(--color-light) !important;
         background: none !important;
         text-shadow: 0 1px rgba(0, 0, 0, 0.3) !important;
@@ -136,102 +146,63 @@
       }
 
       /* Token colors */
-      .token.comment,
-      .token.prolog,
-      .token.doctype,
-      .token.cdata {
+      .code-tabs .token.comment,
+      .code-tabs .token.prolog,
+      .code-tabs .token.doctype,
+      .code-tabs .token.cdata {
         color: #6a737d !important;
       }
 
-      .token.punctuation {
+      .code-tabs .token.punctuation {
         color: var(--color-light) !important;
       }
 
-      .token.property,
-      .token.tag,
-      .token.boolean,
-      .token.number,
-      .token.constant,
-      .token.symbol,
-      .token.deleted {
+      .code-tabs .token.property,
+      .code-tabs .token.tag,
+      .code-tabs .token.boolean,
+      .code-tabs .token.number,
+      .code-tabs .token.constant,
+      .code-tabs .token.symbol,
+      .code-tabs .token.deleted {
         color: var(--color-mid) !important;
       }
 
-      .token.selector,
-      .token.attr-name,
-      .token.string,
-      .token.char,
-      .token.builtin,
-      .token.inserted {
+      .code-tabs .token.selector,
+      .code-tabs .token.attr-name,
+      .code-tabs .token.string,
+      .code-tabs .token.char,
+      .code-tabs .token.builtin,
+      .code-tabs .token.inserted {
         color: #a5d6a7 !important;
       }
 
-      .token.operator,
-      .token.entity,
-      .token.url,
-      .language-css .token.string,
-      .style .token.string {
+      .code-tabs .token.operator,
+      .code-tabs .token.entity,
+      .code-tabs .token.url,
+      .code-tabs .language-css .token.string,
+      .code-tabs .style .token.string {
         color: var(--color-white) !important;
       }
 
-      .token.atrule,
-      .token.attr-value,
-      .token.keyword {
+      .code-tabs .token.atrule,
+      .code-tabs .token.attr-value,
+      .code-tabs .token.keyword {
         color: var(--color-mid) !important;
       }
 
-      .token.function,
-      .token.class-name {
+      .code-tabs .token.function,
+      .code-tabs .token.class-name {
         color: #ddbdf2 !important;
       }
 
-      .token.regex,
-      .token.important,
-      .token.variable {
+      .code-tabs .token.regex,
+      .code-tabs .token.important,
+      .code-tabs .token.variable {
         color: #ee9d28 !important;
-      }
-
-      /*===========================================================================
-  CODE SNIPPET STYLES
-===========================================================================*/
-
-      /* Code snippet iframe */
-      .code-snippet-frame {
-        position: relative; /* Changed from absolute to relative */
-        margin-top: 20px; /* Added margin at the top */
-        width: 90%; /* Adjusted width */
-        max-width: 1000px;
-        height: 60vh; /* Set to percentage of viewport height */
-        z-index: 100;
-        border: 2px solid var(--support-button-color);
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        pointer-events: auto !important; /* Critical for allowing interaction */
-      }
-
-      /* Code snippet responsive styles */
-      @media (min-width: 768px) {
-        .code-snippet-frame {
-          width: 80%;
-          height: 60vh;
-        }
-      }
-
-      @media (max-width: 767px) {
-        .code-snippet-frame {
-          width: 95%;
-          height: 50vh;
-        }
-      }
-
-      @media (max-height: 700px) and (min-width: 768px) {
-        .code-snippet-frame {
-          height: 50vh;
-        }
       }
     </style>
   </head>
-  <body>
+  <body class="code-snippet-body">
     <div class="code-tabs">
       <div class="tab-buttons">
         <!-- Add tab buttons here - example: -->
