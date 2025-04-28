@@ -30,7 +30,7 @@ class SupportPanel {
                         </button>
                     </div>
                     <div class="iframe-container">
-                        <iframe src="${this.supportUrl}" class="support-iframe" title="Customer Support Chat"></iframe>
+                        <iframe src="${this.supportUrl}" class="support-iframe" title="Customer Support Chat" frameborder="0" scrolling="auto" allowtransparency="true" allow="clipboard-read; clipboard-write; microphone"></iframe>
                     </div>
                 </div>
             </div>
