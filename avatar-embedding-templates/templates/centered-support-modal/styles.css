@@ -13,7 +13,7 @@ body {
     color: var(--support-button-color);
     text-align: center;
     position: relative;
-    z-index: 150; /* Ensure title appears above the iframe */
+    z-index: 0; /* Ensure title appears above the iframe */
 }
 
 .instructions-list {
