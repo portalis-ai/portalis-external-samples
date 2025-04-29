@@ -78,9 +78,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createCardButton(text, url) {
+    const link = document.createElement("a");
+    link.href = `./templates/${url}`;
     const button = document.createElement("button");
     button.textContent = text;
-    button.onclick = () => (window.location.href = `./templates/${url}`);
-    return button;
+    link.appendChild(button);
+    return link;
   }
 });
