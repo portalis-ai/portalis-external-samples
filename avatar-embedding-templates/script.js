@@ -25,6 +25,12 @@ document.addEventListener("DOMContentLoaded", function () {
       title: "Video Call",
       url: "video-call",
     },
+    {
+      gifPath: "assets/fullscreen.gif",
+      text: "Button which allows for client to enable fullscreen for avatar",
+      title: "Fullscreen",
+      url: "fullscreen",
+    },
   ];
 
   // Card container element

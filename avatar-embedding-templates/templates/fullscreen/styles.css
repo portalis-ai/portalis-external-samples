@@ -87,8 +87,8 @@ body {
     /* Fullscreen specific variables */
     --fullscreen-button-color: #9183CA; /* TODO: Update this value to match your brand's primary color */
     --fullscreen-button-color-hover: #D5D0E5; /* TODO: Update this value to match your brand's secondary color */
-    --exit-button-bg-color: rgba(0, 0, 0, 0.7); /* TODO: Update exit button background color */
-    --exit-button-bg-color-hover: rgba(0, 0, 0, 0.9); /* TODO: Update exit button hover background color */
+    --exit-button-bg-color: #9183CA; /* TODO: Update exit button background color */
+    --exit-button-bg-color-hover: #D5D0E5; /* TODO: Update exit button hover background color */
 }
 
 /* Ensure the iframe stays behind the overlay */
