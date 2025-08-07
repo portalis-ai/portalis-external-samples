@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Snippet Template</title>
+
+    <!-- Include Prism CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+    />
+    <link rel="stylesheet" href="snippet.css" />
+  </head>
+  <body class="code-snippet-body">
+    <div class="code-tabs">
+      <div class="tab-buttons">
+        <!-- Add tab buttons here - example: -->
+        <button class="tab-button active" data-tab="html">HTML</button>
+        <button class="tab-button" data-tab="javascript">JavaScript</button>
+        <button class="tab-button" data-tab="css">CSS</button>
+        <!-- Add more tabs as needed -->
+      </div>
+
+      <!-- HTML Tab -->
+      <div class="tab-content active" id="html-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#html-code">
+            Copy
+          </button>
+          <pre><code id="html-code" class="language-html">
+&lt;!-- Sample content page --&gt;
+&lt;div&gt;
+  &lt;h1&gt;Hello World!&lt;/h1&gt;
+  &lt;p&gt;This is a simple test page with fullscreen avatar functionality.&lt;/p&gt;
+  &lt;button class="enter-fullscreen-btn" onclick="enterIframe()"&gt;
+    Open Avatar Chat
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Exit button (hidden by default) --&gt;
+&lt;button
+  id="exit-btn"
+  onclick="exitIframe()"
+  style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  "
+  onmouseover="this.style.backgroundColor='rgba(0, 0, 0, 0.9)'"
+  onmouseout="this.style.backgroundColor='rgba(0, 0, 0, 0.7)'"
+&gt;
+  ×
+&lt;/button&gt;
+
+&lt;!-- Fullscreen iframe (hidden by default) --&gt;
+&lt;iframe
+  id="avatar-iframe"
+  src="&lt;!-- TODO: IFRAME SRC HERE --&gt;"
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    z-index: 999999;
+    display: none;
+  "
+  allow="camera;microphone;fullscreen;clipboard-write"
+  referrerpolicy="origin"
+&gt;&lt;/iframe&gt;
+          </code></pre>
+        </div>
+      </div>
+
+      <!-- JavaScript Tab -->
+      <div class="tab-content" id="javascript-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#javascript-code">
+            Copy
+          </button>
+          <pre><code id="javascript-code" class="language-javascript">
+// Function to exit fullscreen mode
+function exitIframe() {
+  console.log("Exiting iframe..."); // Debug log
+
+  const iframe = document.getElementById("avatar-iframe");
+  const exitBtn = document.getElementById("exit-btn");
+
+  // Hide the iframe and exit button
+  if (iframe) {
+    iframe.style.display = "none";
+  }
+  if (exitBtn) {
+    exitBtn.style.display = "none";
+  }
+
+  // Restore body scroll
+  document.body.style.overflow = "auto";
+
+  console.log("Iframe exited"); // Debug log
+}
+
+// Listen for ESC key to exit fullscreen
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    console.log("ESC key pressed"); // Debug log
+    exitIframe();
+  }
+});
+
+// Function to enter fullscreen
+function enterIframe() {
+  console.log("Entering iframe..."); // Debug log
+
+  const iframe = document.getElementById("avatar-iframe");
+  const exitBtn = document.getElementById("exit-btn");
+
+  // Show iframe and exit button
+  if (iframe) {
+    iframe.style.display = "block";
+  }
+  if (exitBtn) {
+    exitBtn.style.display = "flex";
+  }
+
+  // Hide body scroll
+  document.body.style.overflow = "hidden";
+
+  console.log("Iframe entered"); // Debug log
+}
+
+// Add click event listener as backup
+document.addEventListener("DOMContentLoaded", function () {
+  const exitBtn = document.getElementById("exit-btn");
+  if (exitBtn) {
+    exitBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("Exit button clicked"); // Debug log
+      exitIframe();
+    });
+  }
+});
+          </code></pre>
+        </div>
+      </div>
+
+      <!-- CSS Tab -->
+      <div class="tab-content" id="css-tab">
+        <div class="code-container">
+          <button class="copy-button" data-clipboard-target="#css-code">
+            Copy
+          </button>
+          <pre><code id="css-code" class="language-css">
+/*===========================================================================
+FULLSCREEN AVATAR STYLES
+===========================================================================*/
+
+:root {
+  --fullscreen-button-color: #007bff; /* TODO: Update this value to match your brand's primary color */
+  --fullscreen-button-color-hover: #0056b3; /* TODO: Update this value to match your brand's secondary color */
+  --exit-button-bg-color: rgba(0, 0, 0, 0.7); /* TODO: Update exit button background color */
+  --exit-button-bg-color-hover: rgba(0, 0, 0, 0.9); /* TODO: Update exit button hover background color */
+}
+
+.enter-fullscreen-btn {
+  background-color: var(--fullscreen-button-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.enter-fullscreen-btn:hover {
+  background-color: var(--fullscreen-button-color-hover);
+}
+
+#exit-btn {
+  background-color: var(--exit-button-bg-color) !important;
+  transition: background-color 0.3s ease;
+}
+
+#exit-btn:hover {
+  background-color: var(--exit-button-bg-color-hover) !important;
+}
+          </code></pre>
+        </div>
+      </div>
+
+      <!-- Add more tab content divs as needed -->
+    </div>
+
+    <!-- Include Prism JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <!-- Include additional Prism language support as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+    <!-- Include Clipboard.js for copy functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Custom JavaScript with iframe support -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Tab switching functionality
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            // Remove active class from all tabs
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            tabContents.forEach((content) =>
+              content.classList.remove("active")
+            );
+
+            // Add active class to clicked tab
+            button.classList.add("active");
+            const tabId = `${button.dataset.tab}-tab`;
+            document.getElementById(tabId).classList.add("active");
+
+            // Notify parent page about tab change (optional)
+            if (window.parent !== window) {
+              window.parent.postMessage(
+                {
+                  type: "tabChange",
+                  tab: button.dataset.tab,
+                },
+                "*"
+              );
+            }
+          });
+        });
+
+        // Initialize Clipboard.js
+        const clipboard = new ClipboardJS(".copy-button");
+
+        clipboard.on("success", function (e) {
+          const button = e.trigger;
+          const originalText = button.textContent;
+
+          // Change button text to indicate success
+          button.textContent = "Copied!";
+
+          // Reset button text after 2 seconds
+          setTimeout(function () {
+            button.textContent = originalText;
+          }, 2000);
+
+          e.clearSelection();
+
+          // Notify parent page about copy (optional)
+          if (window.parent !== window) {
+            window.parent.postMessage(
+              {
+                type: "codeCopied",
+                content: e.text,
+              },
+              "*"
+            );
+          }
+        });
+
+        clipboard.on("error", function (e) {
+          const button = e.trigger;
+          button.textContent = "Failed!";
+
+          setTimeout(function () {
+            button.textContent = "Copy";
+          }, 2000);
+        });
+
+        // Listen for messages from parent page
+        window.addEventListener("message", function (event) {
+          // Check if message is from parent
+          if (event.source === window.parent) {
+            const data = event.data;
+
+            // Example: Update code content
+            if (data.type === "updateCode" && data.language && data.code) {
+              const codeId = `${data.language}-code`;
+              const codeElement = document.getElementById(codeId);
+
+              if (codeElement) {
+                codeElement.textContent = data.code;
+                Prism.highlightElement(codeElement);
+              }
+            }
+
+            // Example: Switch tab
+            if (data.type === "switchTab" && data.tab) {
+              const tabButton = document.querySelector(
+                `.tab-button[data-tab="${data.tab}"]`
+              );
+              if (tabButton) {
+                tabButton.click();
+              }
+            }
+          }
+        });
+
+        // Notify parent that iframe is ready
+        if (window.parent !== window) {
+          window.parent.postMessage(
+            {
+              type: "iframeReady",
+            },
+            "*"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
